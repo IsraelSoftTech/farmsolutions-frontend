@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FaSolarPanel, FaBox } from 'react-icons/fa';
+import { HiCheck } from 'react-icons/hi';
 import { solarStorageProducts, smartPackagingProducts } from '../data/products';
 import './ProductsPage.css';
 
@@ -29,7 +31,7 @@ const ProductsPage = () => {
             {solarStorageProducts.map(product => (
               <div key={product.id} className="product-card">
                 <div className="product-image">
-                  <span className="product-icon">☀️</span>
+                  <FaSolarPanel className="product-icon" />
                 </div>
                 <div className="product-content">
                   <h3>{product.name}</h3>
@@ -40,7 +42,10 @@ const ProductsPage = () => {
                   <h4 className="product-benefits-title">Key Benefits:</h4>
                   <ul className="product-benefits">
                     {product.benefits.map((benefit, index) => (
-                      <li key={index}>✓ {benefit}</li>
+                      <li key={index}>
+                        <HiCheck className="check-icon" />
+                        {benefit}
+                      </li>
                     ))}
                   </ul>
                   <div className="product-footer">
@@ -72,7 +77,7 @@ const ProductsPage = () => {
           <div className="products-grid packaging-grid">
             {smartPackagingProducts.map(product => (
               <div key={product.id} className="packaging-card">
-                <div className="packaging-icon">📦</div>
+                <FaBox className="packaging-icon" />
                 <h3>{product.name}</h3>
                 <p className="product-description">{product.description}</p>
                 

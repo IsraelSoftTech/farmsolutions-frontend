@@ -1,5 +1,21 @@
 .pricing-page {
   min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+}
+
+.pricing-page .page-title {
+  color: #FFFFFF;
+  font-family: 'Poppins', sans-serif;
+}
+
+.pricing-page .section-title {
+  color: var(--primary-green);
+  font-family: 'Poppins', sans-serif;
+}
+
+.pricing-note {
+  color: var(--sunny-yellow) !important;
+  font-weight: 700;
 }
 
 .pricing-section {

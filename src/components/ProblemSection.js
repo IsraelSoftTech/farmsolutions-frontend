@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaChartLine, FaDollarSign, FaGlobe, FaArrowUp } from 'react-icons/fa';
 import './ProblemSection.css';
 
 const ProblemSection = () => {
@@ -6,22 +7,22 @@ const ProblemSection = () => {
     {
       number: '40%',
       label: 'Post-harvest losses in developing countries',
-      icon: '📉'
+      icon: FaChartLine
     },
     {
       number: '$31B',
       label: 'Annual economic losses in Africa alone',
-      icon: '💰'
+      icon: FaDollarSign
     },
     {
       number: '1.3B',
       label: 'Tons of food wasted globally each year',
-      icon: '🌍'
+      icon: FaGlobe
     },
     {
       number: '30%',
       label: 'Income increase potential with proper storage',
-      icon: '📈'
+      icon: FaArrowUp
     }
   ];
 
@@ -34,13 +35,18 @@ const ProblemSection = () => {
           leading to food insecurity and economic hardship.
         </p>
         <div className="problem-stats">
-          {stats.map((stat, index) => (
-            <div key={index} className="stat-card">
-              <div className="stat-icon">{stat.icon}</div>
-              <div className="stat-number">{stat.number}</div>
-              <div className="stat-label">{stat.label}</div>
-            </div>
-          ))}
+          {stats.map((stat, index) => {
+            const IconComponent = stat.icon;
+            return (
+              <div key={index} className="stat-card">
+                <div className="stat-icon">
+                  <IconComponent />
+                </div>
+                <div className="stat-number">{stat.number}</div>
+                <div className="stat-label">{stat.label}</div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

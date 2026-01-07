@@ -1,26 +1,36 @@
 .products-page {
   min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
 }
 
 .products-hero {
-  background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+  background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
   color: white;
   padding: 4rem 0 3rem;
   text-align: center;
 }
 
-.page-title {
+.products-page .page-title {
   font-size: 3rem;
   margin-bottom: 1rem;
   font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  color: #FFFFFF;
 }
 
-.page-subtitle {
-  font-size: 1.2rem;
+.products-page .section-title {
+  color: var(--primary-green);
+  font-family: 'Poppins', sans-serif;
+}
+
+.products-page .page-subtitle {
+  font-size: 1.15rem;
   max-width: 800px;
   margin: 0 auto;
   opacity: 0.95;
-  line-height: 1.6;
+  line-height: 1.7;
+  font-weight: 400;
+  font-family: 'Poppins', sans-serif;
 }
 
 .products-section {
@@ -45,21 +55,23 @@
 .product-card,
 .packaging-card {
   background: white;
-  border-radius: 15px;
+  border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
+  border: 1px solid var(--border-color);
 }
 
 .product-card:hover,
 .packaging-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+  transform: translateY(-8px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border-color: var(--primary-green);
 }
 
 .product-image {
   height: 250px;
-  background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+  background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -68,6 +80,7 @@
 .product-icon,
 .packaging-icon {
   font-size: 4rem;
+  color: white;
 }
 
 .product-content {
@@ -111,6 +124,16 @@
   padding: 0.5rem 0;
   border-bottom: 1px solid var(--border-color);
   color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.product-benefits .check-icon {
+  color: var(--primary-green);
+  font-size: 1.2rem;
+  flex-shrink: 0;
 }
 
 .product-footer {
@@ -123,9 +146,10 @@
 }
 
 .product-price {
-  color: var(--solar-orange);
-  font-weight: bold;
+  color: var(--sunny-yellow);
+  font-weight: 700;
   font-size: 1.1rem;
+  font-family: 'Poppins', sans-serif;
 }
 
 .product-actions {
@@ -163,8 +187,9 @@
 
 .products-cta {
   padding: 5rem 0;
-  background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+  background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
   color: white;
+  font-family: 'Poppins', sans-serif;
 }
 
 .cta-content {

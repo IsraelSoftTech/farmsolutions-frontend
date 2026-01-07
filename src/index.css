@@ -11,6 +11,8 @@
   --light-green: #00C96D;
   --accent-green: #00E67A;
   --dark-green: #007A3D;
+  --sunny-yellow: #FFD700;
+  --sunny-yellow-light: #FFEB3B;
   --secondary-blue: #0066CC;
   --accent-orange: #FF6B35;
   --text-dark: #1A1A1A;
@@ -118,6 +120,19 @@ code {
   margin-bottom: 1rem;
   font-weight: 700;
   text-align: center;
+  font-family: 'Poppins', sans-serif;
+}
+
+.page-title.highlight-green {
+  color: var(--primary-green);
+}
+
+.page-title.highlight-white {
+  color: #FFFFFF;
+}
+
+.page-title.highlight-yellow {
+  color: var(--sunny-yellow);
 }
 
 .page-subtitle {

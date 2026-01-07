@@ -1,5 +1,16 @@
 .impact-page {
   min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+}
+
+.impact-page .page-title {
+  color: #FFFFFF;
+  font-family: 'Poppins', sans-serif;
+}
+
+.impact-page .section-title {
+  color: var(--primary-green);
+  font-family: 'Poppins', sans-serif;
 }
 
 .impact-stats-section {
@@ -29,9 +40,10 @@
 
 .impact-stat-number {
   font-size: 3rem;
-  font-weight: bold;
-  color: var(--solar-orange);
+  font-weight: 700;
+  color: var(--primary-green);
   margin-bottom: 0.5rem;
+  font-family: 'Poppins', sans-serif;
 }
 
 .impact-stat-label {
@@ -103,12 +115,13 @@
 
 .testimonial-rating {
   margin-bottom: 1rem;
+  display: flex;
+  gap: 0.2rem;
 }
 
 .testimonial-rating .star {
-  color: var(--solar-yellow);
+  color: var(--sunny-yellow);
   font-size: 1.2rem;
-  margin-right: 0.2rem;
 }
 
 .testimonial-text-large {

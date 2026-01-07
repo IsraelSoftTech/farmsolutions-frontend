@@ -1,23 +1,27 @@
 .problem-section {
   background: var(--bg-light);
   padding: 5rem 0;
+  font-family: 'Poppins', sans-serif;
 }
 
-.section-title {
+.problem-section .section-title {
   text-align: center;
   font-size: 2.5rem;
-  color: var(--text-dark);
+  color: var(--primary-green);
   margin-bottom: 1rem;
   font-weight: 700;
+  font-family: 'Poppins', sans-serif;
 }
 
-.section-subtitle {
+.problem-section .section-subtitle {
   text-align: center;
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   color: var(--text-light);
   max-width: 800px;
   margin: 0 auto 3rem;
-  line-height: 1.6;
+  line-height: 1.7;
+  font-weight: 400;
+  font-family: 'Poppins', sans-serif;
 }
 
 .problem-stats {
@@ -30,35 +34,49 @@
 .stat-card {
   background: white;
   padding: 2.5rem 2rem;
-  border-radius: 15px;
+  border-radius: 8px;
   text-align: center;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
-  border-top: 4px solid var(--primary-green);
+  border-top: 3px solid var(--primary-green);
 }
 
 .stat-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  transform: translateY(-8px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
 .stat-icon {
-  font-size: 3rem;
-  margin-bottom: 1rem;
+  font-size: 2.5rem;
+  margin-bottom: 1.25rem;
+  color: var(--primary-green);
+  display: flex;
+  justify-content: center;
 }
 
 .stat-number {
-  font-size: 3rem;
-  font-weight: bold;
-  color: var(--solar-orange);
+  font-size: 2.75rem;
+  font-weight: 700;
+  color: var(--primary-green);
   margin-bottom: 0.8rem;
   line-height: 1;
+  font-family: 'Poppins', sans-serif;
+}
+
+.stat-number.highlight-yellow {
+  color: var(--sunny-yellow);
+}
+
+.stat-number.highlight-white {
+  color: #FFFFFF;
 }
 
 .stat-label {
   color: var(--text-light);
-  font-size: 1.1rem;
-  line-height: 1.5;
+  font-size: 1rem;
+  line-height: 1.6;
+  font-weight: 400;
+  font-family: 'Poppins', sans-serif;
 }
 
 @media (max-width: 768px) {

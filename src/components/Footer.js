@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { FaLeaf, FaFacebook, FaTwitter, FaLinkedin, FaInstagram, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
 import './Footer.css';
 
 const Footer = () => {
@@ -19,8 +20,8 @@ const Footer = () => {
         <div className="footer-content">
           <div className="footer-section">
             <h3>
-              <span className="footer-logo-icon">🌱</span>
-              About Farmer's Solution
+              <FaLeaf className="footer-logo-icon" />
+              <span>About Farmer's Solution</span>
             </h3>
             <p>
               Leading the way in sustainable agricultural preservation technology, 
@@ -28,10 +29,10 @@ const Footer = () => {
               solar-powered solutions.
             </p>
             <div className="social-links">
-              <a href="#" aria-label="Facebook">📘</a>
-              <a href="#" aria-label="Twitter">🐦</a>
-              <a href="#" aria-label="LinkedIn">💼</a>
-              <a href="#" aria-label="Instagram">📷</a>
+              <a href="#" aria-label="Facebook"><FaFacebook /></a>
+              <a href="#" aria-label="Twitter"><FaTwitter /></a>
+              <a href="#" aria-label="LinkedIn"><FaLinkedin /></a>
+              <a href="#" aria-label="Instagram"><FaInstagram /></a>
             </div>
           </div>
 
@@ -50,16 +51,16 @@ const Footer = () => {
             <h3>Contact Us</h3>
             <ul className="contact-info">
               <li>
-                <span className="contact-icon">📧</span>
-                info@farmerssolution.com
+                <FaEnvelope className="contact-icon" />
+                <span>info@farmerssolution.com</span>
               </li>
               <li>
-                <span className="contact-icon">📞</span>
-                +234 800 000 0000
+                <FaPhone className="contact-icon" />
+                <span>+234 800 000 0000</span>
               </li>
               <li>
-                <span className="contact-icon">📍</span>
-                Nigeria, West Africa
+                <FaMapMarkerAlt className="contact-icon" />
+                <span>Nigeria, West Africa</span>
               </li>
             </ul>
           </div>

@@ -11,7 +11,7 @@ const Hero = () => {
       <div className="container">
         <div className="hero-content">
           <h1 className="hero-title">
-            Reducing Post-Harvest Losses with <span className="highlight">Solar Innovation</span>
+            Reducing Post-Harvest Losses with <span className="highlight-yellow">Solar Innovation</span>
           </h1>
           <p className="hero-tagline">
             Empowering farmers with sustainable preservation technology to increase income and reduce waste

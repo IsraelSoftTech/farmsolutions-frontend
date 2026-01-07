@@ -1,12 +1,14 @@
 .impact-section {
-  background: linear-gradient(135deg, var(--primary-green) 0%, var(--light-green) 100%);
+  background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
   color: white;
   padding: 5rem 0;
+  font-family: 'Poppins', sans-serif;
 }
 
 .impact-section .section-title,
 .impact-section .section-subtitle {
   color: white;
+  font-family: 'Poppins', sans-serif;
 }
 
 .impact-grid {
@@ -19,34 +21,40 @@
 .impact-item {
   text-align: center;
   padding: 2rem;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
   backdrop-filter: blur(10px);
   transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .impact-item:hover {
   transform: translateY(-5px);
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.18);
 }
 
 .impact-number {
   font-size: 3rem;
-  font-weight: bold;
-  color: var(--solar-yellow);
+  font-weight: 700;
+  color: var(--sunny-yellow);
   margin-bottom: 0.5rem;
   line-height: 1;
+  font-family: 'Poppins', sans-serif;
+  text-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
 }
 
 .impact-label {
   font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
+  font-family: 'Poppins', sans-serif;
 }
 
 .impact-description {
   font-size: 0.9rem;
   opacity: 0.9;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
 }
 
 @media (max-width: 768px) {

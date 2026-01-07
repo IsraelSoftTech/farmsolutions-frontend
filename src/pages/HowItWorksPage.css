@@ -1,12 +1,23 @@
 .how-it-works-page {
   min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
 }
 
 .page-hero {
-  background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+  background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
   color: white;
   padding: 4rem 0 3rem;
   text-align: center;
+}
+
+.how-it-works-page .page-title {
+  color: #FFFFFF;
+  font-family: 'Poppins', sans-serif;
+}
+
+.how-it-works-page .section-title {
+  color: var(--primary-green);
+  font-family: 'Poppins', sans-serif;
 }
 
 .steps-section {
@@ -43,14 +54,15 @@
   transform: translateX(-50%);
   width: 40px;
   height: 40px;
-  background: var(--solar-orange);
-  color: white;
+  background: var(--sunny-yellow);
+  color: var(--text-dark);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
+  font-weight: 700;
   font-size: 1.2rem;
+  font-family: 'Poppins', sans-serif;
 }
 
 .step-icon {
@@ -59,9 +71,11 @@
 }
 
 .step-card h3 {
-  color: var(--text-dark);
+  color: var(--primary-green);
   margin-bottom: 1rem;
   font-size: 1.3rem;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
 }
 
 .step-card p {
@@ -83,7 +97,9 @@
 .cta-content h2 {
   font-size: 2.5rem;
   margin-bottom: 1rem;
-  color: var(--text-dark);
+  color: var(--primary-green);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
 }
 
 .cta-content p {

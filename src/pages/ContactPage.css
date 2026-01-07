@@ -1,5 +1,22 @@
 .contact-page {
   min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+}
+
+.contact-page .page-title {
+  color: #FFFFFF;
+  font-family: 'Poppins', sans-serif;
+}
+
+.contact-page .section-title {
+  color: var(--primary-green);
+  font-family: 'Poppins', sans-serif;
+}
+
+.contact-info h4 {
+  color: var(--primary-green);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
 }
 
 .contact-section {

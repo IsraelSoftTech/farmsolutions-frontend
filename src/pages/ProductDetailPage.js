@@ -1,5 +1,7 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { FaSolarPanel, FaBox } from 'react-icons/fa';
+import { HiCheck, HiStar } from 'react-icons/hi';
 import { getProductById } from '../data/products';
 import './ProductDetailPage.css';
 
@@ -39,9 +41,11 @@ const ProductDetailPage = () => {
         <div className="container">
           <div className="product-header">
             <div className="product-image-large">
-              <span className="product-icon-large">
-                {product.category === 'Solar Storage System' ? '☀️' : '📦'}
-              </span>
+              {product.category === 'Solar Storage System' ? (
+                <FaSolarPanel className="product-icon-large" />
+              ) : (
+                <FaBox className="product-icon-large" />
+              )}
             </div>
 
             <div className="product-info">
@@ -119,7 +123,7 @@ const ProductDetailPage = () => {
               <ul>
                 {product.features.map((feature, index) => (
                   <li key={index}>
-                    <span className="check-icon">✓</span>
+                    <HiCheck className="check-icon" />
                     {feature}
                   </li>
                 ))}
@@ -131,7 +135,7 @@ const ProductDetailPage = () => {
               <ul>
                 {product.impact.map((benefit, index) => (
                   <li key={index}>
-                    <span className="star-icon">★</span>
+                    <HiStar className="star-icon" />
                     {benefit}
                   </li>
                 ))}
@@ -150,9 +154,9 @@ const ProductDetailPage = () => {
               {product.testimonials.map((testimonial, index) => (
                 <div key={index} className="testimonial-card">
                   <div className="testimonial-rating">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <span key={i} className="star">★</span>
-                    ))}
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <HiStar key={i} className="star" />
+                  ))}
                   </div>
                   <p className="testimonial-text">"{testimonial.text}"</p>
                   <div className="testimonial-author">

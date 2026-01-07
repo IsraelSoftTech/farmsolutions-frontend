@@ -1,5 +1,6 @@
 .product-detail-page {
   min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
 }
 
 .product-not-found {
@@ -43,8 +44,8 @@
 
 .product-image-large {
   height: 400px;
-  background: linear-gradient(135deg, var(--primary-green), var(--light-green));
-  border-radius: 15px;
+  background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -52,6 +53,7 @@
 
 .product-icon-large {
   font-size: 6rem;
+  color: white;
 }
 
 .product-info {
@@ -73,6 +75,7 @@
   color: var(--text-dark);
   margin: 0;
   font-weight: 700;
+  font-family: 'Poppins', sans-serif;
 }
 
 .product-description-large {
@@ -89,9 +92,10 @@
 
 .product-price-large {
   font-size: 1.5rem;
-  color: var(--solar-orange);
-  font-weight: bold;
+  color: var(--sunny-yellow);
+  font-weight: 700;
   margin-bottom: 0.5rem;
+  font-family: 'Poppins', sans-serif;
 }
 
 .product-specs-summary {
@@ -120,8 +124,9 @@
 .spec-card {
   background: white;
   padding: 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  font-family: 'Poppins', sans-serif;
 }
 
 .spec-card h4 {
@@ -156,15 +161,18 @@
 .benefits-box {
   background: white;
   padding: 2rem;
-  border-radius: 15px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  font-family: 'Poppins', sans-serif;
 }
 
 .features-box h3,
 .benefits-box h3 {
-  color: var(--text-dark);
+  color: var(--primary-green);
   margin-bottom: 1.5rem;
   font-size: 1.5rem;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
 }
 
 .features-box ul,
@@ -186,12 +194,13 @@
 .check-icon {
   color: var(--primary-green);
   font-size: 1.2rem;
-  font-weight: bold;
+  flex-shrink: 0;
 }
 
 .star-icon {
-  color: var(--solar-orange);
+  color: var(--primary-green);
   font-size: 1.2rem;
+  flex-shrink: 0;
 }
 
 .testimonials-section {
@@ -209,8 +218,9 @@
 .testimonial-card {
   background: white;
   padding: 2rem;
-  border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  font-family: 'Poppins', sans-serif;
 }
 
 .testimonial-rating {
@@ -219,7 +229,7 @@
 }
 
 .testimonial-rating .star {
-  color: var(--solar-yellow);
+  color: var(--sunny-yellow);
   font-size: 1.2rem;
 }
 
@@ -251,10 +261,11 @@
 
 .cta-box {
   text-align: center;
-  background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+  background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
   color: white;
   padding: 3rem;
-  border-radius: 15px;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .cta-box h2 {
