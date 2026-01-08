@@ -114,6 +114,15 @@
 .info-icon {
   font-size: 3rem;
   margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--primary-green);
+}
+
+.info-icon svg {
+  width: 3rem;
+  height: 3rem;
 }
 
 .info-card h3 {

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaLeaf, FaFacebook, FaTwitter, FaLinkedin, FaInstagram, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
+import logo from '../assets/logo.png';
 import './Footer.css';
 
 const Footer = () => {
@@ -20,8 +21,8 @@ const Footer = () => {
         <div className="footer-content">
           <div className="footer-section">
             <h3>
-              <FaLeaf className="footer-logo-icon" />
-              <span>About Farmer's Solution</span>
+              <img src={logo} alt="Farmers Solutions Logo" className="footer-logo-img" />
+              <span>About Farmers Solutions</span>
             </h3>
             <p>
               Leading the way in sustainable agricultural preservation technology, 
@@ -40,9 +41,9 @@ const Footer = () => {
             <h3>Quick Links</h3>
             <ul>
               <li><Link to="/products">Our Products</Link></li>
-              <li><Link to="/how-it-works">How It Works</Link></li>
+              <li><Link to="/how-it-works">Know More</Link></li>
               <li><Link to="/impact">Success Stories</Link></li>
-              <li><Link to="/knowledge">Resources</Link></li>
+              <li><Link to="/knowledge">Knowledge</Link></li>
               <li><Link to="/pricing">Pricing</Link></li>
             </ul>
           </div>
@@ -84,7 +85,7 @@ const Footer = () => {
         </div>
 
         <div className="footer-bottom">
-          <p>&copy; 2024 Farmer's Solution. All rights reserved.</p>
+          <p>&copy; 2024 Farmers Solutions. All rights reserved.</p>
           <div className="footer-links">
             <Link to="/privacy">Privacy Policy</Link>
             <span>|</span>

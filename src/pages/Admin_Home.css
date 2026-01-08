@@ -1,0 +1,76 @@
+.admin-home-page {
+  /* Use exact same styling as normal pages */
+}
+
+.admin-loading {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.2rem;
+  color: #7f8c8d;
+}
+
+.admin-banner-controls {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  display: flex;
+  gap: 0.5rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.hero-slide:hover .admin-banner-controls {
+  opacity: 1;
+}
+
+.admin-upload-btn-small,
+.admin-delete-btn-small {
+  background: rgba(76, 175, 80, 0.9);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.admin-upload-btn-small:hover {
+  background: rgba(76, 175, 80, 1);
+  transform: scale(1.1);
+}
+
+.admin-delete-btn-small {
+  background: rgba(244, 67, 54, 0.9);
+}
+
+.admin-delete-btn-small:hover {
+  background: rgba(244, 67, 54, 1);
+}
+
+.admin-add-banner-btn {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 10;
+  background: rgba(76, 175, 80, 0.9);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.admin-add-banner-btn:hover {
+  background: rgba(76, 175, 80, 1);
+  transform: translateY(-2px);
+}

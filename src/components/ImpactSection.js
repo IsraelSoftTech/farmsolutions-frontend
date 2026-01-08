@@ -36,7 +36,7 @@ const ImpactSection = () => {
           {impacts.map((impact, index) => (
             <div key={index} className="impact-item">
               <div className="impact-number">{impact.number}</div>
-              <div className="impact-label">{impact.label}</div>
+              <div className="impact-label-white">{impact.label}</div>
               <div className="impact-description">{impact.description}</div>
             </div>
           ))}

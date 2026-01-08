@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
 import './ContactPage.css';
 
 const ContactPage = () => {
@@ -54,7 +55,9 @@ const ContactPage = () => {
 
               <div className="contact-details">
                 <div className="contact-item">
-                  <div className="contact-icon">📧</div>
+                  <div className="contact-icon">
+                    <FaEnvelope />
+                  </div>
                   <div>
                     <h4>Email</h4>
                     <p>info@farmerssolution.com</p>
@@ -62,7 +65,9 @@ const ContactPage = () => {
                 </div>
 
                 <div className="contact-item">
-                  <div className="contact-icon">📞</div>
+                  <div className="contact-icon">
+                    <FaPhone />
+                  </div>
                   <div>
                     <h4>Phone</h4>
                     <p>+234 800 000 0000</p>
@@ -70,7 +75,9 @@ const ContactPage = () => {
                 </div>
 
                 <div className="contact-item">
-                  <div className="contact-icon">📍</div>
+                  <div className="contact-icon">
+                    <FaMapMarkerAlt />
+                  </div>
                   <div>
                     <h4>Location</h4>
                     <p>Nigeria, West Africa</p>

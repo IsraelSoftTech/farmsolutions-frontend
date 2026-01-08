@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FaCreditCard, FaWrench, FaPhone } from 'react-icons/fa';
 import { solarStorageProducts } from '../data/products';
 import './PricingPage.css';
 
@@ -50,17 +51,23 @@ const PricingPage = () => {
         <div className="container">
           <div className="info-grid">
             <div className="info-card">
-              <div className="info-icon">💳</div>
+              <div className="info-icon">
+                <FaCreditCard />
+              </div>
               <h3>Flexible Payment</h3>
               <p>Payment plans available for qualified farmers and cooperatives</p>
             </div>
             <div className="info-card">
-              <div className="info-icon">🛠️</div>
+              <div className="info-icon">
+                <FaWrench />
+              </div>
               <h3>Installation Included</h3>
               <p>Professional installation and setup included in all packages</p>
             </div>
             <div className="info-card">
-              <div className="info-icon">📞</div>
+              <div className="info-icon">
+                <FaPhone />
+              </div>
               <h3>Ongoing Support</h3>
               <p>24/7 technical support and maintenance services available</p>
             </div>

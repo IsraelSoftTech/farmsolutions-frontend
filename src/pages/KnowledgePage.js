@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaBook, FaSun, FaSeedling, FaChartBar, FaTools, FaBookOpen } from 'react-icons/fa';
 import './KnowledgePage.css';
 
 const KnowledgePage = () => {
@@ -7,37 +8,37 @@ const KnowledgePage = () => {
       title: 'Post-Harvest Loss Prevention Guide',
       description: 'Comprehensive guide on reducing post-harvest losses in agricultural operations.',
       type: 'Guide',
-      icon: '📖'
+      icon: FaBook
     },
     {
       title: 'Solar Storage Best Practices',
       description: 'Learn how to maximize the efficiency of your solar storage system.',
       type: 'Article',
-      icon: '☀️'
+      icon: FaSun
     },
     {
       title: 'Crop-Specific Storage Tips',
       description: 'Tailored storage recommendations for different crop types.',
       type: 'Resource',
-      icon: '🌾'
+      icon: FaSeedling
     },
     {
       title: 'Market Timing Strategies',
       description: 'When to sell your produce for maximum profit.',
       type: 'Guide',
-      icon: '📊'
+      icon: FaChartBar
     },
     {
       title: 'Maintenance & Care',
       description: 'Keep your storage systems running at peak performance.',
       type: 'Article',
-      icon: '🔧'
+      icon: FaTools
     },
     {
       title: 'Success Stories Collection',
       description: 'Real stories from farmers who have transformed their operations.',
       type: 'Case Study',
-      icon: '📚'
+      icon: FaBookOpen
     }
   ];
 
@@ -55,15 +56,20 @@ const KnowledgePage = () => {
       <section className="resources-section">
         <div className="container">
           <div className="resources-grid">
-            {resources.map((resource, index) => (
-              <div key={index} className="resource-card">
-                <div className="resource-icon">{resource.icon}</div>
-                <span className="resource-type">{resource.type}</span>
-                <h3>{resource.title}</h3>
-                <p>{resource.description}</p>
-                <button className="btn-resource">Read More</button>
-              </div>
-            ))}
+            {resources.map((resource, index) => {
+              const IconComponent = resource.icon;
+              return (
+                <div key={index} className="resource-card">
+                  <div className="resource-icon">
+                    <IconComponent />
+                  </div>
+                  <span className="resource-type">{resource.type}</span>
+                  <h3>{resource.title}</h3>
+                  <p>{resource.description}</p>
+                  <button className="btn-resource">Read More</button>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

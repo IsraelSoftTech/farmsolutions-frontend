@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FaUser, FaUserTie, FaUsers, FaUserCircle } from 'react-icons/fa';
 import './ImpactPage.css';
 
 const ImpactPage = () => {
@@ -8,7 +9,7 @@ const ImpactPage = () => {
       name: 'John Mwangi',
       location: 'Kenya',
       role: 'Smallholder Farmer',
-      image: '👨‍🌾',
+      icon: FaUser,
       text: 'The Spethacs Room A transformed my tomato farming. I used to lose 40% of my harvest, now I lose less than 10%. My income has doubled!',
       rating: 5
     },
@@ -16,7 +17,7 @@ const ImpactPage = () => {
       name: 'Amina Yusuf',
       location: 'Nigeria',
       role: 'Vegetable Farmer',
-      image: '👩‍🌾',
+      icon: FaUserTie,
       text: 'Easy to install and maintain. My vegetables stay fresh for weeks, allowing me to sell at better prices. Best investment I\'ve made.',
       rating: 5
     },
@@ -24,7 +25,7 @@ const ImpactPage = () => {
       name: 'Rwanda Farmers Union',
       location: 'Rwanda',
       role: 'Agricultural Cooperative',
-      image: '👥',
+      icon: FaUsers,
       text: 'Our cooperative serves 200 farmers. The Spethacs Room B has helped us collectively save over $50,000 in lost produce. Game changer!',
       rating: 5
     },
@@ -32,7 +33,7 @@ const ImpactPage = () => {
       name: 'Grace Okonkwo',
       location: 'Nigeria',
       role: 'Market Vendor',
-      image: '👩',
+      icon: FaUserCircle,
       text: 'FreshGuard bags have revolutionized how I store and transport my vegetables. Customers love the freshness and I waste less.',
       rating: 5
     }
@@ -73,24 +74,29 @@ const ImpactPage = () => {
         <div className="container">
           <h2 className="section-title">Success Stories</h2>
           <div className="testimonials-grid">
-            {testimonials.map((testimonial, index) => (
-              <div key={index} className="testimonial-card-large">
-                <div className="testimonial-header">
-                  <div className="testimonial-avatar">{testimonial.image}</div>
-                  <div className="testimonial-info">
-                    <h4>{testimonial.name}</h4>
-                    <p className="testimonial-role">{testimonial.role}</p>
-                    <p className="testimonial-location">{testimonial.location}</p>
+            {testimonials.map((testimonial, index) => {
+              const IconComponent = testimonial.icon;
+              return (
+                <div key={index} className="testimonial-card-large">
+                  <div className="testimonial-header">
+                    <div className="testimonial-avatar">
+                      <IconComponent />
+                    </div>
+                    <div className="testimonial-info">
+                      <h4>{testimonial.name}</h4>
+                      <p className="testimonial-role">{testimonial.role}</p>
+                      <p className="testimonial-location">{testimonial.location}</p>
+                    </div>
                   </div>
-                </div>
                 <div className="testimonial-rating">
                   {[...Array(testimonial.rating)].map((_, i) => (
                     <span key={i} className="star">★</span>
                   ))}
                 </div>
                 <p className="testimonial-text-large">"{testimonial.text}"</p>
-              </div>
-            ))}
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

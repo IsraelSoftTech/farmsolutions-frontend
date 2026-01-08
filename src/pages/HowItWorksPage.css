@@ -68,6 +68,15 @@
 .step-icon {
   font-size: 4rem;
   margin: 1rem 0;
+  color: var(--primary-green);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.step-icon svg {
+  width: 4rem;
+  height: 4rem;
 }
 
 .step-card h3 {

@@ -1,4 +1,4 @@
-.navbar {
+.admin-navbar {
   background: #6b7280;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   position: sticky;
@@ -8,7 +8,7 @@
   font-family: 'Poppins', sans-serif;
 }
 
-.nav-container {
+.admin-nav-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -17,7 +17,7 @@
   margin: 0 auto;
 }
 
-.logo {
+.admin-logo {
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--primary-green);
@@ -29,11 +29,11 @@
   font-family: 'Poppins', sans-serif;
 }
 
-.logo:hover {
+.admin-logo:hover {
   transform: scale(1.02);
 }
 
-.logo-img {
+.admin-logo-img {
   height: 50px;
   width: auto;
   max-width: 150px;
@@ -41,12 +41,7 @@
   object-fit: contain;
 }
 
-.logo-icon {
-  font-size: 1.75rem;
-  color: var(--primary-green);
-}
-
-.nav-links {
+.admin-nav-links {
   display: flex;
   list-style: none;
   gap: 2rem;
@@ -56,7 +51,7 @@
   align-items: center;
 }
 
-.nav-links a {
+.admin-nav-links a {
   color: #e0e0e0;
   text-decoration: none;
   font-weight: 500;
@@ -68,7 +63,7 @@
   white-space: nowrap;
 }
 
-.nav-links a::after {
+.admin-nav-links a::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -79,17 +74,50 @@
   transition: width 0.3s ease;
 }
 
-.nav-links a:hover::after,
-.nav-links a.active::after {
+.admin-nav-links a:hover::after,
+.admin-nav-links a.active::after {
   width: 100%;
 }
 
-.nav-links a:hover,
-.nav-links a.active {
+.admin-nav-links a:hover,
+.admin-nav-links a.active {
   color: var(--primary-green);
 }
 
-.menu-toggle {
+.admin-logout-btn {
+  background: transparent;
+  color: #e0e0e0;
+  border: none;
+  padding: 0.5rem 0;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+  position: relative;
+  font-family: 'Poppins', sans-serif;
+  white-space: nowrap;
+}
+
+.admin-logout-btn::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--primary-green);
+  transition: width 0.3s ease;
+}
+
+.admin-logout-btn:hover::after {
+  width: 100%;
+}
+
+.admin-logout-btn:hover {
+  color: var(--primary-green);
+}
+
+.admin-menu-toggle {
   display: none;
   background: transparent;
   border: none;
@@ -99,16 +127,16 @@
   transition: color 0.3s ease;
 }
 
-.menu-toggle:hover {
+.admin-menu-toggle:hover {
   color: var(--primary-green);
 }
 
 @media (max-width: 968px) {
-  .menu-toggle {
+  .admin-menu-toggle {
     display: flex;
   }
 
-  .nav-links {
+  .admin-nav-links {
     position: fixed;
     top: 70px;
     left: 0;
@@ -123,25 +151,26 @@
     margin-left: 0;
   }
 
-  .nav-links.open {
+  .admin-nav-links.open {
     transform: translateX(0);
   }
 
-  .nav-links a {
+  .admin-nav-links a,
+  .admin-logout-btn {
     white-space: normal;
   }
 }
 
 @media (max-width: 480px) {
-  .nav-container {
+  .admin-nav-container {
     padding: 1rem;
   }
 
-  .logo {
+  .admin-logo {
     font-size: 1.2rem;
   }
 
-  .logo-img {
+  .admin-logo-img {
     height: 35px;
   }
 }
