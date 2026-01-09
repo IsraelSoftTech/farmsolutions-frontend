@@ -14,7 +14,7 @@ const AdminFooter = () => {
     aboutTitle: 'About Farmers Solutions',
     aboutText: 'Leading the way in sustainable agricultural preservation technology, helping farmers reduce waste and increase profits through innovative solar-powered solutions.',
     newsletterText: 'Subscribe for updates on agricultural technology and farming tips.',
-    copyright: '© 2024 Farmers Solutions. All rights reserved.'
+    copyright: '© 2026 Farmers Solutions. All rights reserved.'
   });
   const [contactInfo, setContactInfo] = useState([
     { type: 'email', label: 'Email', value: 'info@farmerssolution.com', icon: 'FaEnvelope' },

@@ -57,11 +57,11 @@ const Footer = () => {
               </li>
               <li>
                 <FaPhone className="contact-icon" />
-                <span>+234 800 000 0000</span>
+                <span>+237 651 412 772</span>
               </li>
               <li>
                 <FaMapMarkerAlt className="contact-icon" />
-                <span>Nigeria, West Africa</span>
+                <span>Buea</span>
               </li>
             </ul>
           </div>
@@ -85,7 +85,7 @@ const Footer = () => {
         </div>
 
         <div className="footer-bottom">
-          <p>&copy; 2024 Farmers Solutions. All rights reserved.</p>
+          <p>&copy; 2026 Farmers Solutions. All rights reserved.</p>
           <div className="footer-links">
             <Link to="/privacy">Privacy Policy</Link>
             <span>|</span>

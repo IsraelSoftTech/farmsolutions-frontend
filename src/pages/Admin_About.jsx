@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import adminService from '../services/adminService';
 import EditableSection from '../components/EditableSection';
 import EditableField from '../components/EditableField';
+import { getTeamImage } from '../utils/teamImages';
 import './Admin_About.css';
 import '../pages/AboutPage.css';
 
@@ -42,10 +43,10 @@ const Admin_About = () => {
       { section: 'vision', content: 'At Farmers Solution, we believe that preserving food is preserving income, dignity, and opportunity. By reducing losses, improving quality, and strengthening food systems, we help farmers move from survival to sustainability.' },
     ]);
     setTeam([
-      { id: 1, name: 'John Doe', position: 'Chief Executive Officer', qualification: 'M.Sc. Agricultural Engineering', image: 'https://via.placeholder.com/300x300?text=Team+Member+1' },
-      { id: 2, name: 'Jane Smith', position: 'Chief Technology Officer', qualification: 'Ph.D. Renewable Energy Systems', image: 'https://via.placeholder.com/300x300?text=Team+Member+2' },
-      { id: 3, name: 'Michael Johnson', position: 'Head of Operations', qualification: 'M.Sc. Supply Chain Management', image: 'https://via.placeholder.com/300x300?text=Team+Member+3' },
-      { id: 4, name: 'Sarah Williams', position: 'Head of Business Development', qualification: 'MBA, Business Administration', image: 'https://via.placeholder.com/300x300?text=Team+Member+4' },
+      { id: 1, name: 'Njong Nya Nadia Keng', position: 'CTO', qualification: 'MTech Renewable Energy Engineering, BTech Electrical and Electronics, Trained Technician', image_url: 'T1.jpg' },
+      { id: 2, name: 'Yasin Sidik Nkwankwa', position: 'Chief Operation Officer', qualification: 'PhD Electrical Power Systems', image_url: 'T2.jpeg' },
+      { id: 3, name: 'Njong Nya Malaica Etaka', position: 'CEO', qualification: 'DIPET II Information and Communication Technology, Public Health Administrator', image_url: 'T3.jpg' },
+      { id: 4, name: 'Ashu Diane Enow', position: 'CFO', qualification: 'MBA in Finance', image_url: 'T4.jpeg' },
     ]);
   };
 
@@ -214,7 +215,7 @@ const Admin_About = () => {
               >
                 <div className="team-card">
                   <div className="team-card-image">
-                    <img src={member.image_url || member.image || 'https://via.placeholder.com/300x300'} alt={member.name} />
+                    <img src={getTeamImage(member.image_url || member.image) || 'https://via.placeholder.com/300x300'} alt={member.name} />
                     <div className="admin-image-overlay">
                       <label className="admin-upload-btn">
                         Change Photo

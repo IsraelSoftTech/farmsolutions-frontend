@@ -6,6 +6,7 @@ import adminService from '../services/adminService';
 import EditableSection from '../components/EditableSection';
 import EditableField from '../components/EditableField';
 import { solarStorageProducts, smartPackagingProducts } from '../data/products';
+import { getProductImage } from '../utils/productImages';
 import './Admin_Products.css';
 import '../pages/ProductsPage.css';
 
@@ -63,6 +64,32 @@ const Admin_Products = () => {
       return p;
     });
     setProducts(updated);
+  };
+
+  const handleImageUpload = async (e, product) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    try {
+      const productData = {
+        product_id: product.product_id || product.id,
+        name: product.name,
+        category: product.category,
+        description: product.description,
+        capacity: product.capacity,
+        dimensions: product.dimensions,
+        price: product.price,
+        benefits: Array.isArray(product.benefits) ? product.benefits : [],
+        features: Array.isArray(product.features) ? product.features : [],
+        order_index: product.order_index || 0
+      };
+      await adminService.saveProduct(productData, file);
+      await loadProducts();
+      alert('Product image updated!');
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      alert('Error uploading image');
+    }
   };
 
   const handleSaveProduct = async (product) => {
@@ -136,11 +163,20 @@ const Admin_Products = () => {
                   className="product-card"
                 >
                   <div className="product-image">
-                    <FaSolarPanel className="product-icon" />
+                    {product.image_url ? (
+                      <img src={getProductImage(product.image_url)} alt={product.name} />
+                    ) : (
+                      <FaSolarPanel className="product-icon" />
+                    )}
                     <div className="admin-image-overlay">
                       <label className="admin-upload-btn">
                         Change Image
-                        <input type="file" accept="image/*" style={{ display: 'none' }} />
+                        <input 
+                          type="file" 
+                          accept="image/*" 
+                          style={{ display: 'none' }}
+                          onChange={(e) => handleImageUpload(e, product)}
+                        />
                       </label>
                     </div>
                   </div>
@@ -251,7 +287,6 @@ const Admin_Products = () => {
                     <ul>
                       {(Array.isArray(product.features) ? product.features : []).map((feature, index) => (
                         <li key={index}>
-                          •{' '}
                           <EditableField
                             value={feature}
                             onChange={(value) => updateProductFeature(product.id || product.product_id, index, value)}

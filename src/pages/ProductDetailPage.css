@@ -44,16 +44,36 @@
 
 .product-image-large {
   height: 400px;
+  width: 100%;
   background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.product-image-large img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 8px;
 }
 
 .product-icon-large {
   font-size: 6rem;
   color: white;
+  position: absolute;
+  z-index: 1;
+}
+
+/* Fallback when no image */
+.product-image-large:not(:has(img)) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .product-info {

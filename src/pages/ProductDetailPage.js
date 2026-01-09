@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { FaSolarPanel, FaBox } from 'react-icons/fa';
 import { HiCheck, HiStar } from 'react-icons/hi';
 import { getProductById } from '../data/products';
+import { getProductImage } from '../utils/productImages';
 import './ProductDetailPage.css';
 
 const ProductDetailPage = () => {
@@ -41,7 +42,9 @@ const ProductDetailPage = () => {
         <div className="container">
           <div className="product-header">
             <div className="product-image-large">
-              {product.category === 'Solar Storage System' ? (
+              {product.image && getProductImage(product.image) ? (
+                <img src={getProductImage(product.image)} alt={product.name} />
+              ) : product.category === 'Solar Storage System' ? (
                 <FaSolarPanel className="product-icon-large" />
               ) : (
                 <FaBox className="product-icon-large" />

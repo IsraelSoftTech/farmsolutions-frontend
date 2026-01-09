@@ -14,7 +14,7 @@ export const solarStorageProducts = [
     warranty: '2 years',
     bestFor: 'Small-scale farmers, individual plots, trial installations',
     price: 'Contact for pricing',
-    image: '/images/spethacs-room-a.jpg',
+    image: 'pro1.jpeg',
     benefits: [
       'Reduces post-harvest loss by 80%',
       'Solar-powered operation',
@@ -66,7 +66,7 @@ export const solarStorageProducts = [
     warranty: '3 years',
     bestFor: 'Agricultural cooperatives, medium-sized farms, community storage',
     price: 'Contact for pricing',
-    image: '/images/spethacs-room-b.jpg',
+    image: 'pro2.jpeg',
     benefits: [
       'Climate control system',
       'Real-time monitoring',
@@ -112,7 +112,7 @@ export const solarStorageProducts = [
     warranty: '5 years',
     bestFor: 'Commercial farms, food processing companies, large agricultural businesses',
     price: 'Contact for pricing',
-    image: '/images/spethacs-room-c.jpg',
+    image: 'pro3.jpeg',
     benefits: [
       'Advanced climate control',
       'Digital analytics platform',

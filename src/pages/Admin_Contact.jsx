@@ -15,8 +15,8 @@ const iconMap = {
 const Admin_Contact = () => {
   const [contactInfo, setContactInfo] = useState([
     { type: 'email', label: 'Email', value: 'info@farmerssolution.com', icon: 'FaEnvelope' },
-    { type: 'phone', label: 'Phone', value: '+234 800 000 0000', icon: 'FaPhone' },
-    { type: 'location', label: 'Location', value: 'Nigeria, West Africa', icon: 'FaMapMarkerAlt' }
+    { type: 'phone', label: 'Phone', value: '+237 651 412 772', icon: 'FaPhone' },
+    { type: 'location', label: 'Location', value: 'Buea', icon: 'FaMapMarkerAlt' }
   ]);
   const [businessHours, setBusinessHours] = useState([
     { day: 'Monday - Friday', hours: '8:00 AM - 6:00 PM' },

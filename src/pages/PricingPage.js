@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaCreditCard, FaWrench, FaPhone } from 'react-icons/fa';
 import { solarStorageProducts } from '../data/products';
+import { getProductImage } from '../utils/productImages';
 import './PricingPage.css';
 
 const PricingPage = () => {
@@ -21,6 +22,13 @@ const PricingPage = () => {
           <div className="pricing-grid">
             {solarStorageProducts.map((product, index) => (
               <div key={product.id} className="pricing-card">
+                <div className="pricing-image">
+                  {product.image && getProductImage(product.image) ? (
+                    <img src={getProductImage(product.image)} alt={product.name} />
+                  ) : (
+                    <div className="pricing-image-placeholder"></div>
+                  )}
+                </div>
                 <div className="pricing-header">
                   <h3>{product.name}</h3>
                   <div className="pricing-capacity">{product.capacity}</div>

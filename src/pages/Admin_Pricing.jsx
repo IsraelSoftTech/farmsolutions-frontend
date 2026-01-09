@@ -5,6 +5,7 @@ import adminService from '../services/adminService';
 import EditableSection from '../components/EditableSection';
 import EditableField from '../components/EditableField';
 import { solarStorageProducts } from '../data/products';
+import { getProductImage } from '../utils/productImages';
 import './Admin_Pricing.css';
 import '../pages/PricingPage.css';
 
@@ -115,6 +116,13 @@ const Admin_Pricing = () => {
                 sectionId={`pricing-${pkg.id || index}`}
                 className="pricing-card"
               >
+                <div className="pricing-image">
+                  {(pkg.image_url || pkg.image) && getProductImage(pkg.image_url || pkg.image) ? (
+                    <img src={getProductImage(pkg.image_url || pkg.image)} alt={pkg.name} />
+                  ) : (
+                    <div className="pricing-image-placeholder"></div>
+                  )}
+                </div>
                 <div className="pricing-header">
                   <h3>
                     <EditableField

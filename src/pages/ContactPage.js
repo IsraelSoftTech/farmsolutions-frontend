@@ -70,7 +70,7 @@ const ContactPage = () => {
                   </div>
                   <div>
                     <h4>Phone</h4>
-                    <p>+234 800 000 0000</p>
+                    <p>+237 651 412 772</p>
                   </div>
                 </div>
 
@@ -80,7 +80,7 @@ const ContactPage = () => {
                   </div>
                   <div>
                     <h4>Location</h4>
-                    <p>Nigeria, West Africa</p>
+                    <p>Buea</p>
                   </div>
                 </div>
               </div>

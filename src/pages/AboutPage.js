@@ -1,36 +1,37 @@
 import React from 'react';
+import { getTeamImage } from '../utils/teamImages';
 import './AboutPage.css';
 
 const AboutPage = () => {
-  // Team members data - you can update this with actual team member information
+  // Team members data
   const teamMembers = [
     {
       id: 1,
-      name: 'John Doe',
-      position: 'Chief Executive Officer',
-      qualification: 'M.Sc. Agricultural Engineering',
-      image: 'https://via.placeholder.com/300x300?text=Team+Member+1'
+      name: 'Njong Nya Nadia Keng',
+      position: 'CTO',
+      qualification: 'MTech Renewable Energy Engineering, BTech Electrical and Electronics, Trained Technician',
+      image: 'T1.jpg'
     },
     {
       id: 2,
-      name: 'Jane Smith',
-      position: 'Chief Technology Officer',
-      qualification: 'Ph.D. Renewable Energy Systems',
-      image: 'https://via.placeholder.com/300x300?text=Team+Member+2'
+      name: 'Yasin Sidik Nkwankwa',
+      position: 'Chief Operation Officer',
+      qualification: 'PhD Electrical Power Systems',
+      image: 'T2.jpeg'
     },
     {
       id: 3,
-      name: 'Michael Johnson',
-      position: 'Head of Operations',
-      qualification: 'M.Sc. Supply Chain Management',
-      image: 'https://via.placeholder.com/300x300?text=Team+Member+3'
+      name: 'Njong Nya Malaica Etaka',
+      position: 'CEO',
+      qualification: 'DIPET II Information and Communication Technology, Public Health Administrator',
+      image: 'T3.jpg'
     },
     {
       id: 4,
-      name: 'Sarah Williams',
-      position: 'Head of Business Development',
-      qualification: 'MBA, Business Administration',
-      image: 'https://via.placeholder.com/300x300?text=Team+Member+4'
+      name: 'Ashu Diane Enow',
+      position: 'CFO',
+      qualification: 'MBA in Finance',
+      image: 'T4.jpeg'
     }
   ];
 
@@ -71,7 +72,7 @@ const AboutPage = () => {
             {teamMembers.map((member) => (
               <div key={member.id} className="team-card">
                 <div className="team-card-image">
-                  <img src={member.image} alt={member.name} />
+                  <img src={getTeamImage(member.image)} alt={member.name} />
                 </div>
                 <div className="team-card-content">
                   <h3 className="team-member-name">{member.name}</h3>

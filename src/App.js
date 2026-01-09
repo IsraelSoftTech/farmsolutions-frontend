@@ -4,6 +4,8 @@ import Navigation from './components/Navigation';
 import AdminNavigation from './components/AdminNavigation';
 import Footer from './components/Footer';
 import AdminFooter from './components/AdminFooter';
+import Favicon from './components/Favicon';
+import AnimatedLogo from './components/AnimatedLogo';
 import HomePage from './pages/HomePage';
 import ProductsPage from './pages/ProductsPage';
 import ProductDetailPage from './pages/ProductDetailPage';
@@ -28,6 +30,8 @@ import './App.css';
 function App() {
   return (
     <Router>
+      <Favicon />
+      <AnimatedLogo />
       <div className="App">
         <Routes>
           {/* Public Routes */}

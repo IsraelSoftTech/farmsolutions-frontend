@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FaSolarPanel, FaBox } from 'react-icons/fa';
 import { HiCheck } from 'react-icons/hi';
 import { solarStorageProducts, smartPackagingProducts } from '../data/products';
+import { getProductImage } from '../utils/productImages';
 import './ProductsPage.css';
 
 const ProductsPage = () => {
@@ -31,7 +32,11 @@ const ProductsPage = () => {
             {solarStorageProducts.map(product => (
               <div key={product.id} className="product-card">
                 <div className="product-image">
-                  <FaSolarPanel className="product-icon" />
+                  {product.image && getProductImage(product.image) ? (
+                    <img src={getProductImage(product.image)} alt={product.name} />
+                  ) : (
+                    <FaSolarPanel className="product-icon" />
+                  )}
                 </div>
                 <div className="product-content">
                   <h3>{product.name}</h3>
@@ -85,7 +90,7 @@ const ProductsPage = () => {
                   <h4>Features:</h4>
                   <ul>
                     {product.features.map((feature, index) => (
-                      <li key={index}>• {feature}</li>
+                      <li key={index}>{feature}</li>
                     ))}
                   </ul>
                 </div>

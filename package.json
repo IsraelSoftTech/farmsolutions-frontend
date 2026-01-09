@@ -15,6 +15,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "copy-logo": "node copy-logo.js",
+    "prestart": "npm run copy-logo",
+    "prebuild": "npm run copy-logo",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

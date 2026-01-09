@@ -36,6 +36,29 @@
   overflow: hidden;
   transition: all 0.3s ease;
   border: 2px solid transparent;
+  display: flex;
+  flex-direction: column;
+}
+
+.pricing-image {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+  position: relative;
+}
+
+.pricing-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.pricing-image-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
 }
 
 .pricing-card:hover {
