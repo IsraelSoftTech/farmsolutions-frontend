@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './EditableField.css';
 
 const EditableField = ({ 
@@ -19,10 +19,25 @@ const EditableField = ({
   };
 
   const handleBlur = () => {
+    // Always sync value on blur
     if (editValue !== value) {
       onChange(editValue);
     }
     setIsEditing(false);
+  };
+
+  // Sync value when prop changes (when parent updates it)
+  useEffect(() => {
+    if (!isEditing) {
+      setEditValue(value);
+    }
+  }, [value, isEditing]);
+
+  // Handle change - update local state and immediately sync to parent
+  const handleChange = (newValue) => {
+    setEditValue(newValue);
+    // Sync immediately so parent state is always up-to-date for save
+    onChange(newValue);
   };
 
   const handleKeyDown = (e) => {
@@ -42,7 +57,7 @@ const EditableField = ({
         <textarea
           className={`editable-field ${className}`}
           value={editValue}
-          onChange={(e) => setEditValue(e.target.value)}
+          onChange={(e) => handleChange(e.target.value)}
           onBlur={handleBlur}
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
@@ -56,7 +71,7 @@ const EditableField = ({
         type={type}
         className={`editable-field ${className}`}
         value={editValue}
-        onChange={(e) => setEditValue(e.target.value)}
+        onChange={(e) => handleChange(e.target.value)}
         onBlur={handleBlur}
         onKeyDown={handleKeyDown}
         placeholder={placeholder}

@@ -7,7 +7,7 @@ Create a `.env.production` file in the `frontend` directory with the following c
 ```env
 # API Configuration
 REACT_APP_API_URL=https://api.farmsolutionss.com
-REACT_APP_API_VERSION=v1
+REACT_APP_API_PREFIX=/api
 
 # Frontend URL
 REACT_APP_FRONTEND_URL=https://farmsolutionss.com
@@ -23,7 +23,7 @@ Create a `.env.development` file in the `frontend` directory with the following 
 ```env
 # API Configuration (Development)
 REACT_APP_API_URL=http://localhost:5000
-REACT_APP_API_VERSION=v1
+REACT_APP_API_PREFIX=/api
 
 # Frontend URL (Development)
 REACT_APP_FRONTEND_URL=http://localhost:3000

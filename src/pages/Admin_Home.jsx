@@ -1,554 +1,669 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { FaChevronLeft, FaChevronRight, FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
-import { FaChartLine, FaDollarSign, FaGlobe, FaArrowUp } from 'react-icons/fa';
-import { FaSolarPanel, FaBox, FaMobileAlt } from 'react-icons/fa';
-import { HiCheck } from 'react-icons/hi';
-import adminService from '../services/adminService';
-import EditableSection from '../components/EditableSection';
-import EditableField from '../components/EditableField';
-import ban1 from '../assets/ban1.jpeg';
-import ban2 from '../assets/ban2.jpeg';
 import './Admin_Home.css';
-import '../components/Hero.css';
-import '../components/ProblemSection.css';
-import '../components/SolutionSection.css';
-import '../components/ImpactSection.css';
+import useNotification from '../hooks/useNotification';
+import NotificationContainer from '../components/NotificationContainer';
+
+const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
 const Admin_Home = () => {
-  const [homeContent, setHomeContent] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [bannerImages, setBannerImages] = useState([ban1, ban2]);
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const [editing, setEditing] = useState(null);
+  const [formData, setFormData] = useState({});
+  const [backendError, setBackendError] = useState(false);
   
-  // Problem stats
-  const [problemStats, setProblemStats] = useState([
-    { number: '40%', label: 'Post-harvest losses in developing countries', icon: 'FaChartLine' },
-    { number: '$31B', label: 'Annual economic losses in Africa alone', icon: 'FaDollarSign' },
-    { number: '1.3B', label: 'Tons of food wasted globally each year', icon: 'FaGlobe' },
-    { number: '30%', label: 'Income increase potential with proper storage', icon: 'FaArrowUp' }
-  ]);
-
-  // Solution cards
-  const [solutionCards, setSolutionCards] = useState([
-    { icon: 'FaSolarPanel', title: 'Solar Storage Systems', description: 'Climate-controlled storage rooms powered by solar energy, maintaining optimal temperature and humidity for extending crop shelf life.', features: ['100% Solar Powered', 'Climate Control', 'Real-time Monitoring'] },
-    { icon: 'FaBox', title: 'Smart Packaging', description: 'Innovative packaging solutions that monitor and maintain product freshness, reducing spoilage during transportation and storage.', features: ['Freshness Sensors', 'Reusable Design', 'GPS Tracking'] },
-    { icon: 'FaMobileAlt', title: 'Digital Monitoring', description: 'Real-time tracking and analytics to help farmers make informed decisions about storage conditions and market timing.', features: ['Mobile App', 'Data Analytics', 'Alerts & Notifications'] }
-  ]);
-
-  // Impact stats
-  const [impactStats, setImpactStats] = useState([
-    { number: '85%', label: 'Loss Reduction', description: 'Average reduction in post-harvest losses' },
-    { number: '2.5x', label: 'Income Growth', description: 'Increase in farmer income' },
-    { number: '10,000+', label: 'Farmers Helped', description: 'Farmers using our solutions' },
-    { number: '50%', label: 'Quality Improvement', description: 'Better product quality maintained' }
-  ]);
-
-  // Hero stats
-  const [heroStats, setHeroStats] = useState([
-    { number: '85%', label: 'Loss Reduction' },
-    { number: '10,000+', label: 'Farmers Helped' },
-    { number: '2.5x', label: 'Income Growth' }
-  ]);
+  // Home page content organized by sections
+  const [heroSection, setHeroSection] = useState(null);
+  const [heroBanners, setHeroBanners] = useState([]);
+  const [heroStats, setHeroStats] = useState([]);
+  
+  const [problemSection, setProblemSection] = useState(null);
+  const [problemStats, setProblemStats] = useState([]);
+  
+  const [solutionSection, setSolutionSection] = useState(null);
+  const [solutionCards, setSolutionCards] = useState([]);
+  
+  const [impactSection, setImpactSection] = useState(null);
+  const [impactStats, setImpactStats] = useState([]);
+  
+  const [partners, setPartners] = useState([]);
+  
+  const { notifications, showSuccess, showError, removeNotification } = useNotification();
 
   useEffect(() => {
-    loadContent();
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % bannerImages.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [bannerImages.length]);
+    // Small delay to ensure component is mounted before loading
+    const timer = setTimeout(() => {
+      loadData();
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
 
-  const loadContent = async () => {
+  // Helper function for fetch with timeout
+  const fetchWithTimeout = (url, options = {}, timeout = 8000) => {
+    return Promise.race([
+      fetch(url, options),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Request timeout')), timeout)
+      )
+    ]);
+  };
+
+  const loadData = async () => {
+    setLoading(true);
+    const startTime = Date.now();
+    
+    // Always stop loading after 10 seconds max, even if requests are pending
+    const loadingTimeout = setTimeout(() => {
+      console.log('Load timeout reached - stopping loading state');
+      setLoading(false);
+    }, 10000);
+    
     try {
-      const response = await adminService.getHomeContent();
-      if (response.ok && response.data.data) {
-        setHomeContent(response.data.data);
+      // Load sections
+      try {
+        const sectionsRes = await fetchWithTimeout(`${API_BASE}/home/sections`, {}, 5000);
+        if (!sectionsRes.ok) {
+          throw new Error(`HTTP ${sectionsRes.status}: ${sectionsRes.statusText}`);
+        }
+        const sectionsData = await sectionsRes.json();
+        if (sectionsData.success) {
+          const sections = sectionsData.data || [];
+          setHeroSection(sections.find(s => s.section_name === 'hero') || null);
+          setProblemSection(sections.find(s => s.section_name === 'problem') || null);
+          setSolutionSection(sections.find(s => s.section_name === 'solution') || null);
+          setImpactSection(sections.find(s => s.section_name === 'impact') || null);
+        }
+      } catch (error) {
+        console.error('Error loading sections:', error.message);
+        console.log('This is normal if the backend server is not running or tables do not exist yet.');
+        setBackendError(true);
+        // Continue even if sections fail - show empty state
       }
+      
+      // Load all content items with timeout - use Promise.allSettled to continue even if some fail
+      await Promise.allSettled([
+        loadHeroBanners(),
+        loadHeroStats(),
+        loadProblemStats(),
+        loadSolutionCards(),
+        loadImpactStats(),
+        loadPartners(),
+      ]);
+      
+      const duration = Date.now() - startTime;
+      console.log(`Data loading completed in ${duration}ms`);
     } catch (error) {
-      console.error('Error loading content:', error);
+      console.error('Error loading data:', error.message);
+      console.log('Note: Make sure the backend server is running on port 5000');
+      setBackendError(true);
     } finally {
+      clearTimeout(loadingTimeout);
       setLoading(false);
     }
   };
 
-  const getSectionContent = (sectionName) => {
-    return homeContent.find(s => s.section === sectionName) || {};
-  };
-
-  const handleSave = async (sectionName, data, imageFile) => {
+  const loadHeroBanners = async () => {
     try {
-      const sectionData = {
-        section: sectionName,
-        ...data,
-        order_index: 0
-      };
-      await adminService.saveHomeContent(sectionData, imageFile);
-      await loadContent();
-      alert('Content saved successfully!');
+      const response = await fetchWithTimeout(`${API_BASE}/home/hero-banners`, {}, 5000);
+      if (!response.ok) {
+        if (response.status === 0 || response.status >= 500 || response.status === 404) {
+          // 404 is OK - route might not exist or table doesn't exist
+          if (response.status !== 404) {
+            setBackendError(true);
+          }
+        }
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || `HTTP ${response.status}`);
+      }
+      const data = await response.json();
+      if (data.success) {
+        setHeroBanners(data.data || []);
+        setBackendError(false);
+      } else {
+        setHeroBanners([]);
+      }
     } catch (error) {
-      alert('Error saving content');
+      console.error('Error loading hero banners:', error.message);
+      if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError') || error.message.includes('timeout')) {
+        setBackendError(true);
+      }
+      setHeroBanners([]); // Set empty array on error so UI still renders
     }
   };
 
-  const handleBannerImageChange = (index, file) => {
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const newImages = [...bannerImages];
-        newImages[index] = reader.result;
-        setBannerImages(newImages);
-      };
-      reader.readAsDataURL(file);
+  const loadHeroStats = async () => {
+    try {
+      const response = await fetchWithTimeout(`${API_BASE}/home/hero-stats`, {}, 5000);
+      const data = await response.json();
+      if (data.success) setHeroStats(data.data || []);
+    } catch (error) {
+      console.error('Error loading hero stats:', error.message);
+      setHeroStats([]);
     }
   };
 
-  const handleAddBanner = () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*';
-    input.onchange = (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setBannerImages([...bannerImages, reader.result]);
+  const loadProblemStats = async () => {
+    try {
+      const response = await fetchWithTimeout(`${API_BASE}/home/problem-stats`, {}, 5000);
+      const data = await response.json();
+      if (data.success) setProblemStats(data.data || []);
+    } catch (error) {
+      console.error('Error loading problem stats:', error.message);
+      setProblemStats([]);
+    }
+  };
+
+  const loadSolutionCards = async () => {
+    try {
+      const response = await fetchWithTimeout(`${API_BASE}/home/solution-cards`, {}, 5000);
+      const data = await response.json();
+      if (data.success) setSolutionCards(data.data || []);
+    } catch (error) {
+      console.error('Error loading solution cards:', error.message);
+      setSolutionCards([]);
+    }
+  };
+
+  const loadImpactStats = async () => {
+    try {
+      const response = await fetchWithTimeout(`${API_BASE}/home/impact-stats`, {}, 5000);
+      const data = await response.json();
+      if (data.success) setImpactStats(data.data || []);
+    } catch (error) {
+      console.error('Error loading impact stats:', error.message);
+      setImpactStats([]);
+    }
+  };
+
+  const loadPartners = async () => {
+    try {
+      const response = await fetchWithTimeout(`${API_BASE}/home/partners`, {}, 5000);
+      const data = await response.json();
+      if (data.success) setPartners(data.data || []);
+    } catch (error) {
+      console.error('Error loading partners:', error.message);
+      setPartners([]);
+    }
+  };
+
+  const handleEdit = (item, type, sectionName = null) => {
+    setEditing({ type, item, sectionName });
+    setFormData({ ...item });
+  };
+
+  const handleCancel = () => {
+    setEditing(null);
+    setFormData({});
+  };
+
+  const handleSave = async () => {
+    try {
+      const { type, item, sectionName } = editing;
+      let response;
+      
+      if (type === 'section') {
+        // Handle section save
+        const sectionData = {
+          section_name: sectionName,
+          title: formData.title,
+          subtitle: formData.subtitle,
+          content: formData.content,
+          id: item?.id
         };
-        reader.readAsDataURL(file);
+        
+        if (item && item.id) {
+          response = await updateItem('sections', item.id, sectionData);
+        } else {
+          response = await createItem('sections', sectionData);
+        }
+      } else if (item && item.id) {
+        response = await updateItem(type, item.id, formData);
+      } else {
+        response = await createItem(type, formData);
       }
-    };
-    input.click();
-  };
-
-  const handleDeleteBanner = (index) => {
-    if (window.confirm('Delete this banner image?')) {
-      const newImages = bannerImages.filter((_, i) => i !== index);
-      setBannerImages(newImages);
-      if (currentSlide >= newImages.length) {
-        setCurrentSlide(0);
+      
+      if (response.success) {
+        showSuccess('Content saved successfully!');
+        setEditing(null);
+        setFormData({});
+        loadData();
+      } else {
+        showError(response.error || 'Failed to save');
       }
+    } catch (error) {
+      showError(error.message || 'Failed to save');
     }
   };
 
-  const updateProblemStat = (index, field, value) => {
-    const updated = [...problemStats];
-    updated[index] = { ...updated[index], [field]: value };
-    setProblemStats(updated);
+  const handleDelete = async (type, id) => {
+    if (!window.confirm('Are you sure you want to delete this item?')) return;
+    
+    try {
+      const response = await fetch(`${API_BASE}/home/${type}/${id}`, {
+        method: 'DELETE',
+      });
+      const data = await response.json();
+      
+      if (data.success) {
+        showSuccess('Item deleted successfully!');
+        loadData();
+      } else {
+        showError(data.error || 'Failed to delete');
+      }
+    } catch (error) {
+      showError('Failed to delete');
+    }
   };
 
-  const updateSolutionCard = (index, field, value) => {
-    const updated = [...solutionCards];
-    updated[index] = { ...updated[index], [field]: value };
-    setSolutionCards(updated);
+  const handleAdd = (type, sectionName = null) => {
+    const defaults = {
+      'section': { section_name: sectionName, title: '', subtitle: '', content: '' },
+      'hero-banners': { alt_text: '', order_index: 0 },
+      'hero-stats': { number: '', label: '', order_index: 0 },
+      'problem-stats': { number: '', label: '', icon: '', order_index: 0 },
+      'solution-cards': { title: '', description: '', icon: '', features: [], order_index: 0 },
+      'impact-stats': { number: '', label: '', description: '', order_index: 0 },
+      'partners': { name: '', website: '', alt_text: '', order_index: 0 },
+    };
+    
+    if (type === 'section') {
+      setEditing({ type: 'section', item: null, sectionName });
+      setFormData(defaults.section);
+    } else {
+      setEditing({ type, item: null, sectionName: null });
+      setFormData(defaults[type] || {});
+    }
   };
 
-  const updateSolutionFeature = (cardIndex, featureIndex, value) => {
-    const updated = [...solutionCards];
-    updated[cardIndex].features[featureIndex] = value;
-    setSolutionCards(updated);
+  const createItem = async (type, data) => {
+    const formDataToSend = new FormData();
+    
+    let fileField = null;
+    if (type === 'hero-banners' || type === 'partners' || type === 'sections') {
+      fileField = type === 'hero-banners' ? 'image' : (type === 'partners' ? 'logo' : 'image');
+    }
+    
+    Object.keys(data).forEach(key => {
+      if (key !== 'image' && key !== 'logo' && key !== 'id' && key !== 'created_at' && key !== 'updated_at' && key !== 'image_url' && key !== 'logo_url') {
+        if (Array.isArray(data[key])) {
+          formDataToSend.append(key, JSON.stringify(data[key]));
+        } else {
+          formDataToSend.append(key, data[key] || '');
+        }
+      }
+    });
+    
+    if (data[fileField] instanceof File) {
+      formDataToSend.append(fileField, data[fileField]);
+    }
+    
+    const response = await fetch(`${API_BASE}/home/${type}`, {
+      method: 'POST',
+      body: formDataToSend,
+    });
+    
+    return await response.json();
   };
 
-  const updateImpactStat = (index, field, value) => {
-    const updated = [...impactStats];
-    updated[index] = { ...updated[index], [field]: value };
-    setImpactStats(updated);
+  const updateItem = async (type, id, data) => {
+    const formDataToSend = new FormData();
+    
+    let fileField = null;
+    if (type === 'hero-banners' || type === 'partners' || type === 'sections') {
+      fileField = type === 'hero-banners' ? 'image' : (type === 'partners' ? 'logo' : 'image');
+    }
+    
+    Object.keys(data).forEach(key => {
+      if (key !== fileField && key !== 'id' && key !== 'created_at' && key !== 'updated_at' && key !== 'image_url' && key !== 'logo_url') {
+        if (Array.isArray(data[key])) {
+          formDataToSend.append(key, JSON.stringify(data[key]));
+        } else {
+          formDataToSend.append(key, data[key] || '');
+        }
+      }
+    });
+    
+    if (data[fileField] instanceof File) {
+      formDataToSend.append(fileField, data[fileField]);
+    }
+    
+    const endpoint = type === 'sections' && id 
+      ? `${API_BASE}/home/${type}/${id}`
+      : `${API_BASE}/home/${type}/${id}`;
+    
+    const response = await fetch(endpoint, {
+      method: 'PUT',
+      body: formDataToSend,
+    });
+    
+    return await response.json();
   };
 
-  const updateHeroStat = (index, field, value) => {
-    const updated = [...heroStats];
-    updated[index] = { ...updated[index], [field]: value };
-    setHeroStats(updated);
+  const renderContentList = () => {
+    return (
+      <div className="admin-home-content">
+        <h1 style={{ marginBottom: '20px', fontSize: '24px', fontWeight: '400', color: '#333' }}>
+          Homepage Content Management
+        </h1>
+        
+        {loading && (
+          <div className="admin-loading" style={{ marginBottom: '20px', padding: '10px' }}>
+            <p>Loading content from server...</p>
+            <small>This may take a moment if the database is connecting</small>
+          </div>
+        )}
+        
+        {backendError && !loading && (
+          <div className="admin-alert">
+            <strong>⚠️ Backend Connection Issue</strong>
+            <p>Could not connect to the backend server. Please ensure it's running:</p>
+            <p><code>cd backend && npm start</code></p>
+            <p>You can still view the content structure below.</p>
+          </div>
+        )}
+        
+        {/* Hero Section */}
+        <div className="content-group">
+          <h2 className="content-group-title">Hero Section</h2>
+          <div className="content-items">
+            <div className="content-item">
+              <div className="content-item-info">
+                <strong>Hero Section Content</strong>
+                <span>{heroSection?.title || 'Click Change to set title and subtitle'}</span>
+              </div>
+              <button className="btn-edit" onClick={() => handleEdit(heroSection || {}, 'section', 'hero')}>
+                {heroSection ? 'Change' : 'Add'}
+              </button>
+            </div>
+            
+            {heroBanners.length > 0 ? (
+              heroBanners.map(banner => (
+                <div key={banner.id} className="content-item">
+                  <div className="content-item-info">
+                    <strong>Hero Banner #{banner.id}</strong>
+                    {banner.image_url && <img src={banner.image_url} alt={banner.alt_text} className="content-thumb" />}
+                    <span>{banner.alt_text || 'No alt text'}</span>
+                  </div>
+                  <div className="content-item-actions">
+                    <button className="btn-edit" onClick={() => handleEdit(banner, 'hero-banners')}>Change</button>
+                    <button className="btn-delete" onClick={() => handleDelete('hero-banners', banner.id)}>Delete</button>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="content-empty">No hero banners yet. Click "+ Add Hero Banner" to create one.</div>
+            )}
+            <button className="btn-add-small" onClick={() => handleAdd('hero-banners')}>+ Add Hero Banner</button>
+            
+            {heroStats.length > 0 ? (
+              heroStats.map(stat => (
+                <div key={stat.id} className="content-item">
+                  <div className="content-item-info">
+                    <strong>{stat.number} - {stat.label}</strong>
+                  </div>
+                  <div className="content-item-actions">
+                    <button className="btn-edit" onClick={() => handleEdit(stat, 'hero-stats')}>Change</button>
+                    <button className="btn-delete" onClick={() => handleDelete('hero-stats', stat.id)}>Delete</button>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="content-empty">No hero stats yet. Click "+ Add Hero Stat" to create one.</div>
+            )}
+            <button className="btn-add-small" onClick={() => handleAdd('hero-stats')}>+ Add Hero Stat</button>
+          </div>
+        </div>
+
+        {/* Problem Section */}
+        <div className="content-group">
+          <h2 className="content-group-title">Problem Section</h2>
+          <div className="content-items">
+            <div className="content-item">
+              <div className="content-item-info">
+                <strong>Problem Section Content</strong>
+                <span>{problemSection?.title || 'Click Change to set title and subtitle'}</span>
+              </div>
+              <button className="btn-edit" onClick={() => handleEdit(problemSection || {}, 'section', 'problem')}>
+                {problemSection ? 'Change' : 'Add'}
+              </button>
+            </div>
+            
+            {problemStats.length > 0 ? (
+              problemStats.map(stat => (
+                <div key={stat.id} className="content-item">
+                  <div className="content-item-info">
+                    <strong>{stat.number} - {stat.label}</strong>
+                    {stat.icon && <span className="content-meta">Icon: {stat.icon}</span>}
+                  </div>
+                  <div className="content-item-actions">
+                    <button className="btn-edit" onClick={() => handleEdit(stat, 'problem-stats')}>Change</button>
+                    <button className="btn-delete" onClick={() => handleDelete('problem-stats', stat.id)}>Delete</button>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="content-empty">No problem stats yet. Click "+ Add Problem Stat" to create one.</div>
+            )}
+            <button className="btn-add-small" onClick={() => handleAdd('problem-stats')}>+ Add Problem Stat</button>
+          </div>
+        </div>
+
+        {/* Solution Section */}
+        <div className="content-group">
+          <h2 className="content-group-title">Solution Section</h2>
+          <div className="content-items">
+            <div className="content-item">
+              <div className="content-item-info">
+                <strong>Solution Section Content</strong>
+                <span>{solutionSection?.title || 'Click Change to set title and subtitle'}</span>
+              </div>
+              <button className="btn-edit" onClick={() => handleEdit(solutionSection || {}, 'section', 'solution')}>
+                {solutionSection ? 'Change' : 'Add'}
+              </button>
+            </div>
+            
+            {solutionCards.length > 0 ? (
+              solutionCards.map(card => (
+                <div key={card.id} className="content-item">
+                  <div className="content-item-info">
+                    <strong>{card.title}</strong>
+                    <span>{card.description?.substring(0, 80) || 'No description'}...</span>
+                    {card.icon && <span className="content-meta">Icon: {card.icon}</span>}
+                  </div>
+                  <div className="content-item-actions">
+                    <button className="btn-edit" onClick={() => handleEdit(card, 'solution-cards')}>Change</button>
+                    <button className="btn-delete" onClick={() => handleDelete('solution-cards', card.id)}>Delete</button>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="content-empty">No solution cards yet. Click "+ Add Solution Card" to create one.</div>
+            )}
+            <button className="btn-add-small" onClick={() => handleAdd('solution-cards')}>+ Add Solution Card</button>
+          </div>
+        </div>
+
+        {/* Impact Section */}
+        <div className="content-group">
+          <h2 className="content-group-title">Impact Section</h2>
+          <div className="content-items">
+            <div className="content-item">
+              <div className="content-item-info">
+                <strong>Impact Section Content</strong>
+                <span>{impactSection?.title || 'Click Change to set title and subtitle'}</span>
+              </div>
+              <button className="btn-edit" onClick={() => handleEdit(impactSection || {}, 'section', 'impact')}>
+                {impactSection ? 'Change' : 'Add'}
+              </button>
+            </div>
+            
+            {impactStats.length > 0 ? (
+              impactStats.map(stat => (
+                <div key={stat.id} className="content-item">
+                  <div className="content-item-info">
+                    <strong>{stat.number} - {stat.label}</strong>
+                    <span>{stat.description || 'No description'}</span>
+                  </div>
+                  <div className="content-item-actions">
+                    <button className="btn-edit" onClick={() => handleEdit(stat, 'impact-stats')}>Change</button>
+                    <button className="btn-delete" onClick={() => handleDelete('impact-stats', stat.id)}>Delete</button>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="content-empty">No impact stats yet. Click "+ Add Impact Stat" to create one.</div>
+            )}
+            <button className="btn-add-small" onClick={() => handleAdd('impact-stats')}>+ Add Impact Stat</button>
+          </div>
+        </div>
+
+        {/* Partners Section */}
+        <div className="content-group">
+          <h2 className="content-group-title">Partners Section</h2>
+          <div className="content-items">
+            {partners.length > 0 ? (
+              partners.map(partner => (
+                <div key={partner.id} className="content-item">
+                  <div className="content-item-info">
+                    <strong>{partner.name}</strong>
+                    {partner.logo_url && <img src={partner.logo_url} alt={partner.alt_text} className="content-thumb" />}
+                    {partner.website && <span className="content-meta">{partner.website}</span>}
+                  </div>
+                  <div className="content-item-actions">
+                    <button className="btn-edit" onClick={() => handleEdit(partner, 'partners')}>Change</button>
+                    <button className="btn-delete" onClick={() => handleDelete('partners', partner.id)}>Delete</button>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="content-empty">No partners yet. Click "+ Add Partner" to create one.</div>
+            )}
+            <button className="btn-add-small" onClick={() => handleAdd('partners')}>+ Add Partner</button>
+          </div>
+        </div>
+      </div>
+    );
   };
 
-  if (loading) return <div className="admin-loading">Loading...</div>;
+  const renderEditForm = () => {
+    const { type, sectionName } = editing;
+    
+    let fields = [];
+    
+    if (type === 'section') {
+      fields = [
+        { name: 'title', label: 'Title', type: 'text' },
+        { name: 'subtitle', label: 'Subtitle', type: 'textarea' },
+        { name: 'content', label: 'Content', type: 'textarea' },
+        { name: 'image', label: 'Image', type: 'file' },
+      ];
+    } else if (type === 'hero-banners') {
+      fields = [
+        { name: 'image', label: 'Image', type: 'file', required: !editing.item?.id },
+        { name: 'alt_text', label: 'Alt Text', type: 'text' },
+        { name: 'order_index', label: 'Order', type: 'number' },
+      ];
+    } else if (type === 'hero-stats' || type === 'impact-stats') {
+      fields = [
+        { name: 'number', label: 'Number', type: 'text', required: true },
+        { name: 'label', label: 'Label', type: 'text', required: true },
+        ...(type === 'impact-stats' ? [{ name: 'description', label: 'Description', type: 'textarea' }] : []),
+        { name: 'order_index', label: 'Order', type: 'number' },
+      ];
+    } else if (type === 'problem-stats') {
+      fields = [
+        { name: 'number', label: 'Number', type: 'text', required: true },
+        { name: 'label', label: 'Label', type: 'text', required: true },
+        { name: 'icon', label: 'Icon', type: 'text' },
+        { name: 'order_index', label: 'Order', type: 'number' },
+      ];
+    } else if (type === 'solution-cards') {
+      fields = [
+        { name: 'title', label: 'Title', type: 'text', required: true },
+        { name: 'description', label: 'Description', type: 'textarea' },
+        { name: 'icon', label: 'Icon', type: 'text' },
+        { name: 'features', label: 'Features (one per line)', type: 'textarea' },
+        { name: 'order_index', label: 'Order', type: 'number' },
+      ];
+    } else if (type === 'partners') {
+      fields = [
+        { name: 'name', label: 'Name', type: 'text', required: true },
+        { name: 'website', label: 'Website', type: 'url' },
+        { name: 'alt_text', label: 'Alt Text', type: 'text' },
+        { name: 'logo', label: 'Logo', type: 'file' },
+        { name: 'order_index', label: 'Order', type: 'number' },
+      ];
+    }
 
-  const heroContent = getSectionContent('hero');
-  const problemContent = getSectionContent('problem');
-  const solutionContent = getSectionContent('solution');
-  const impactContent = getSectionContent('impact');
-
-  const iconMap = {
-    FaChartLine, FaDollarSign, FaGlobe, FaArrowUp,
-    FaSolarPanel, FaBox, FaMobileAlt
+    return (
+      <div className="admin-edit-form">
+        <div className="admin-edit-header">
+          <h2>
+            {editing.item?.id ? 'Change' : 'Add'} {type === 'section' ? `${sectionName} Section` : type.replace('-', ' ')}
+          </h2>
+        </div>
+        
+        <form onSubmit={(e) => { e.preventDefault(); handleSave(); }}>
+          {fields.map(field => (
+            <div key={field.name} className="form-field">
+              <label>
+                {field.label}
+                {field.required && <span className="required">*</span>}
+              </label>
+              {field.type === 'textarea' ? (
+                field.name === 'features' ? (
+                  <textarea
+                    value={Array.isArray(formData[field.name]) ? formData[field.name].join('\n') : (formData[field.name] || '')}
+                    onChange={(e) => {
+                      const value = e.target.value.split('\n').filter(line => line.trim());
+                      setFormData({ ...formData, [field.name]: value });
+                    }}
+                    rows={6}
+                    required={field.required}
+                  />
+                ) : (
+                  <textarea
+                    value={formData[field.name] || ''}
+                    onChange={(e) => setFormData({ ...formData, [field.name]: e.target.value })}
+                    rows={4}
+                    required={field.required}
+                  />
+                )
+              ) : field.type === 'file' ? (
+                <div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setFormData({ ...formData, [field.name]: e.target.files[0] })}
+                    required={field.required && !editing.item?.id}
+                  />
+                  {formData[field.name === 'image' ? 'image_url' : 'logo_url'] && (
+                    <img src={formData[field.name === 'image' ? 'image_url' : 'logo_url']} alt="Preview" className="form-preview" />
+                  )}
+                </div>
+              ) : (
+                <input
+                  type={field.type}
+                  value={formData[field.name] || ''}
+                  onChange={(e) => setFormData({ ...formData, [field.name]: e.target.value })}
+                  required={field.required}
+                />
+              )}
+            </div>
+          ))}
+          
+          <div className="form-actions">
+            <button type="submit" className="btn-save">Save</button>
+            <button type="button" className="btn-cancel" onClick={handleCancel}>Cancel</button>
+          </div>
+        </form>
+      </div>
+    );
   };
 
   return (
-    <div className="admin-home-page">
-      {/* Hero Section - EXACT COPY */}
-      <section className="hero">
-        <div className="hero-slider">
-          {bannerImages.map((image, index) => (
-            <div
-              key={index}
-              className={`hero-slide ${index === currentSlide ? 'active' : ''}`}
-              style={{ backgroundImage: `url(${image})` }}
-            >
-              <div className="hero-slide-overlay"></div>
-              <div className="admin-banner-controls">
-                <label className="admin-upload-btn-small">
-                  <FaEdit />
-                  <input type="file" accept="image/*" onChange={(e) => handleBannerImageChange(index, e.target.files[0])} style={{ display: 'none' }} />
-                </label>
-                {bannerImages.length > 1 && (
-                  <button onClick={() => handleDeleteBanner(index)} className="admin-delete-btn-small">
-                    <FaTrash />
-                  </button>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-        
-        {bannerImages.length > 1 && (
-          <>
-            <button className="hero-nav-button hero-nav-prev" onClick={() => setCurrentSlide((prev) => (prev - 1 + bannerImages.length) % bannerImages.length)}>
-              <FaChevronLeft />
-            </button>
-            <button className="hero-nav-button hero-nav-next" onClick={() => setCurrentSlide((prev) => (prev + 1) % bannerImages.length)}>
-              <FaChevronRight />
-            </button>
-            <div className="hero-dots">
-              {bannerImages.map((_, index) => (
-                <button
-                  key={index}
-                  className={`hero-dot ${index === currentSlide ? 'active' : ''}`}
-                  onClick={() => setCurrentSlide(index)}
-                />
-              ))}
-            </div>
-          </>
-        )}
-
-        <div className="container">
-          <EditableSection
-            onSave={async () => {
-              await handleSave('hero', {
-                title: heroContent.title || 'Reducing Post-Harvest Losses with Solar Innovation',
-                subtitle: heroContent.subtitle || 'Empowering farmers with sustainable preservation technology',
-              });
-            }}
-            sectionId="hero"
-          >
-            <div className="hero-content">
-              <h1 className="hero-title">
-                <EditableField
-                  value={heroContent.title || 'Reducing Post-Harvest Losses with <span class="highlight-yellow">Solar Innovation</span>'}
-                  onChange={(value) => {
-                    const updated = homeContent.map(s => 
-                      s.section === 'hero' ? { ...s, title: value } : s
-                    );
-                    if (!updated.find(s => s.section === 'hero')) {
-                      updated.push({ section: 'hero', title: value });
-                    }
-                    setHomeContent(updated);
-                  }}
-                  multiline={false}
-                  tag="span"
-                />
-              </h1>
-              <p className="hero-tagline">
-                <EditableField
-                  value={heroContent.subtitle || 'Empowering farmers with sustainable preservation technology to increase income and reduce waste'}
-                  onChange={(value) => {
-                    const updated = homeContent.map(s => 
-                      s.section === 'hero' ? { ...s, subtitle: value } : s
-                    );
-                    if (!updated.find(s => s.section === 'hero')) {
-                      updated.push({ section: 'hero', subtitle: value });
-                    }
-                    setHomeContent(updated);
-                  }}
-                  multiline={true}
-                  tag="span"
-                />
-              </p>
-              <div className="hero-buttons">
-                <Link to="/products" className="btn-primary">View Products</Link>
-                <Link to="/how-it-works" className="btn-secondary">Learn More</Link>
-              </div>
-              <div className="hero-stats">
-                {heroStats.map((stat, index) => (
-                  <EditableSection
-                    key={index}
-                    onSave={async () => {
-                      // Save hero stats
-                    }}
-                    sectionId={`hero-stat-${index}`}
-                    className="hero-stat"
-                  >
-                    <div className="hero-stat-number">
-                      <EditableField
-                        value={stat.number}
-                        onChange={(value) => updateHeroStat(index, 'number', value)}
-                        tag="span"
-                      />
-                    </div>
-                    <div className="hero-stat-label-white">
-                      <EditableField
-                        value={stat.label}
-                        onChange={(value) => updateHeroStat(index, 'label', value)}
-                        tag="span"
-                      />
-                    </div>
-                  </EditableSection>
-                ))}
-              </div>
-            </div>
-          </EditableSection>
-        </div>
-        <button onClick={handleAddBanner} className="admin-add-banner-btn">
-          <FaPlus /> Add Banner Image
-        </button>
-      </section>
-
-      {/* Problem Section - EXACT COPY */}
-      <section className="problem-section">
-        <div className="container">
-          <EditableSection
-            onSave={async () => {
-              await handleSave('problem', {
-                title: problemContent.title || 'The Challenge We Address',
-                subtitle: problemContent.subtitle || 'Post-harvest losses are a critical issue...',
-              });
-            }}
-            sectionId="problem"
-          >
-            <h2 className="section-title">
-              <EditableField
-                value={problemContent.title || 'The Challenge We Address'}
-                onChange={(value) => {
-                  const updated = homeContent.map(s => 
-                    s.section === 'problem' ? { ...s, title: value } : s
-                  );
-                  if (!updated.find(s => s.section === 'problem')) {
-                    updated.push({ section: 'problem', title: value });
-                  }
-                  setHomeContent(updated);
-                }}
-                tag="span"
-              />
-            </h2>
-            <p className="section-subtitle">
-              <EditableField
-                value={problemContent.subtitle || 'Post-harvest losses are a critical issue affecting millions of farmers worldwide, leading to food insecurity and economic hardship.'}
-                onChange={(value) => {
-                  const updated = homeContent.map(s => 
-                    s.section === 'problem' ? { ...s, subtitle: value } : s
-                  );
-                  if (!updated.find(s => s.section === 'problem')) {
-                    updated.push({ section: 'problem', subtitle: value });
-                  }
-                  setHomeContent(updated);
-                }}
-                multiline={true}
-                tag="span"
-              />
-            </p>
-            <div className="problem-stats">
-              {problemStats.map((stat, index) => {
-                const IconComponent = iconMap[stat.icon];
-                return (
-                  <EditableSection
-                    key={index}
-                    onSave={async () => {}}
-                    sectionId={`problem-stat-${index}`}
-                    className="stat-card"
-                  >
-                    <div className="stat-icon">
-                      <IconComponent />
-                    </div>
-                    <div className="stat-number">
-                      <EditableField
-                        value={stat.number}
-                        onChange={(value) => updateProblemStat(index, 'number', value)}
-                        tag="span"
-                      />
-                    </div>
-                    <div className="stat-label">
-                      <EditableField
-                        value={stat.label}
-                        onChange={(value) => updateProblemStat(index, 'label', value)}
-                        multiline={true}
-                        tag="span"
-                      />
-                    </div>
-                  </EditableSection>
-                );
-              })}
-            </div>
-          </EditableSection>
-        </div>
-      </section>
-
-      {/* Solution Section - EXACT COPY */}
-      <section className="solution-section">
-        <div className="container">
-          <EditableSection
-            onSave={async () => {
-              await handleSave('solution', {
-                title: solutionContent.title || 'Our Solar-Powered Solutions',
-                subtitle: solutionContent.subtitle || 'Innovative technology designed to reduce post-harvest losses...',
-              });
-            }}
-            sectionId="solution"
-          >
-            <h2 className="section-title">
-              <EditableField
-                value={solutionContent.title || 'Our Solar-Powered Solutions'}
-                onChange={(value) => {
-                  const updated = homeContent.map(s => 
-                    s.section === 'solution' ? { ...s, title: value } : s
-                  );
-                  if (!updated.find(s => s.section === 'solution')) {
-                    updated.push({ section: 'solution', title: value });
-                  }
-                  setHomeContent(updated);
-                }}
-                tag="span"
-              />
-            </h2>
-            <p className="section-subtitle">
-              <EditableField
-                value={solutionContent.subtitle || 'Innovative technology designed to reduce post-harvest losses and increase farmer income'}
-                onChange={(value) => {
-                  const updated = homeContent.map(s => 
-                    s.section === 'solution' ? { ...s, subtitle: value } : s
-                  );
-                  if (!updated.find(s => s.section === 'solution')) {
-                    updated.push({ section: 'solution', subtitle: value });
-                  }
-                  setHomeContent(updated);
-                }}
-                multiline={true}
-                tag="span"
-              />
-            </p>
-            <div className="solution-cards">
-              {solutionCards.map((solution, index) => {
-                const IconComponent = iconMap[solution.icon];
-                return (
-                  <EditableSection
-                    key={index}
-                    onSave={async () => {}}
-                    sectionId={`solution-card-${index}`}
-                    className="solution-card"
-                  >
-                    <div className="solution-icon">
-                      <IconComponent />
-                    </div>
-                    <h3>
-                      <EditableField
-                        value={solution.title}
-                        onChange={(value) => updateSolutionCard(index, 'title', value)}
-                        tag="span"
-                      />
-                    </h3>
-                    <p>
-                      <EditableField
-                        value={solution.description}
-                        onChange={(value) => updateSolutionCard(index, 'description', value)}
-                        multiline={true}
-                        tag="span"
-                      />
-                    </p>
-                    <ul className="solution-features">
-                      {solution.features.map((feature, idx) => (
-                        <li key={idx}>
-                          <HiCheck className="check-icon" />
-                          <EditableField
-                            value={feature}
-                            onChange={(value) => updateSolutionFeature(index, idx, value)}
-                            tag="span"
-                          />
-                        </li>
-                      ))}
-                    </ul>
-                  </EditableSection>
-                );
-              })}
-            </div>
-          </EditableSection>
-        </div>
-      </section>
-
-      {/* Impact Section - EXACT COPY */}
-      <section className="impact-section">
-        <div className="container">
-          <EditableSection
-            onSave={async () => {
-              await handleSave('impact', {
-                title: impactContent.title || 'Real Impact, Real Results',
-                subtitle: impactContent.subtitle || 'Our solutions are making a tangible difference...',
-              });
-            }}
-            sectionId="impact"
-          >
-            <h2 className="section-title">
-              <EditableField
-                value={impactContent.title || 'Real Impact, Real Results'}
-                onChange={(value) => {
-                  const updated = homeContent.map(s => 
-                    s.section === 'impact' ? { ...s, title: value } : s
-                  );
-                  if (!updated.find(s => s.section === 'impact')) {
-                    updated.push({ section: 'impact', title: value });
-                  }
-                  setHomeContent(updated);
-                }}
-                tag="span"
-              />
-            </h2>
-            <p className="section-subtitle">
-              <EditableField
-                value={impactContent.subtitle || 'Our solutions are making a tangible difference in the lives of farmers across Africa'}
-                onChange={(value) => {
-                  const updated = homeContent.map(s => 
-                    s.section === 'impact' ? { ...s, subtitle: value } : s
-                  );
-                  if (!updated.find(s => s.section === 'impact')) {
-                    updated.push({ section: 'impact', subtitle: value });
-                  }
-                  setHomeContent(updated);
-                }}
-                multiline={true}
-                tag="span"
-              />
-            </p>
-            <div className="impact-grid">
-              {impactStats.map((impact, index) => (
-                <EditableSection
-                  key={index}
-                  onSave={async () => {}}
-                  sectionId={`impact-stat-${index}`}
-                  className="impact-item"
-                >
-                  <div className="impact-number">
-                    <EditableField
-                      value={impact.number}
-                      onChange={(value) => updateImpactStat(index, 'number', value)}
-                      tag="span"
-                    />
-                  </div>
-                  <div className="impact-label-white">
-                    <EditableField
-                      value={impact.label}
-                      onChange={(value) => updateImpactStat(index, 'label', value)}
-                      tag="span"
-                    />
-                  </div>
-                  <div className="impact-description">
-                    <EditableField
-                      value={impact.description}
-                      onChange={(value) => updateImpactStat(index, 'description', value)}
-                      tag="span"
-                    />
-                  </div>
-                </EditableSection>
-              ))}
-            </div>
-          </EditableSection>
-        </div>
-      </section>
+    <div className="admin-home">
+      <NotificationContainer notifications={notifications} removeNotification={removeNotification} />
+      {editing ? renderEditForm() : renderContentList()}
     </div>
   );
 };

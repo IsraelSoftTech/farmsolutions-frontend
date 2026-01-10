@@ -18,13 +18,6 @@ import AboutPage from './pages/AboutPage';
 import LoginPage from './pages/LoginPage';
 import Admin from './pages/Admin';
 import Admin_Home from './pages/Admin_Home';
-import Admin_About from './pages/Admin_About';
-import Admin_Products from './pages/Admin_Products';
-import Admin_HowItWorks from './pages/Admin_HowItWorks';
-import Admin_Impact from './pages/Admin_Impact';
-import Admin_Knowledge from './pages/Admin_Knowledge';
-import Admin_Pricing from './pages/Admin_Pricing';
-import Admin_Contact from './pages/Admin_Contact';
 import './App.css';
 
 function App() {
@@ -57,25 +50,10 @@ function App() {
           } />
           
           {/* Admin Routes */}
-          <Route path="/admin/*" element={
-            <>
-              <AdminNavigation />
-              <main className="main-content">
-                <Routes>
-                  <Route path="" element={<Admin />} />
-                  <Route path="home" element={<Admin_Home />} />
-                  <Route path="about" element={<Admin_About />} />
-                  <Route path="products" element={<Admin_Products />} />
-                  <Route path="how-it-works" element={<Admin_HowItWorks />} />
-                  <Route path="impact" element={<Admin_Impact />} />
-                  <Route path="knowledge" element={<Admin_Knowledge />} />
-                  <Route path="pricing" element={<Admin_Pricing />} />
-                  <Route path="contact" element={<Admin_Contact />} />
-                </Routes>
-              </main>
-              <AdminFooter />
-            </>
-          } />
+          <Route path="/admin" element={<Admin />}>
+            <Route index element={<Admin_Home />} />
+            <Route path="home" element={<Admin_Home />} />
+          </Route>
         </Routes>
       </div>
     </Router>

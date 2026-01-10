@@ -77,8 +77,13 @@
   color: white;
 }
 
-.save-btn:hover {
+.save-btn:hover:not(:disabled) {
   background: #45a049;
+}
+
+.save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .cancel-btn {
@@ -86,6 +91,11 @@
   color: white;
 }
 
-.cancel-btn:hover {
+.cancel-btn:hover:not(:disabled) {
   background: #da190b;
+}
+
+.cancel-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }

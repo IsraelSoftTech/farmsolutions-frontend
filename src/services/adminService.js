@@ -190,7 +190,7 @@ const adminService = {
     if (formData.features && typeof formData.features === 'string') {
       formData.features = JSON.parse(formData.features);
     }
-    return await api.post('/content/pricing', formData);
+    return await api.post('/content/pricing/packages', formData);
   },
 
   updatePackage: async (id, data) => {
@@ -222,8 +222,84 @@ const adminService = {
     return await api.put(`/content/contact/hours/${id}`, data);
   },
 
+  updateBusinessHours: async (id, data) => {
+    return await api.put(`/content/contact/hours/${id}`, data);
+  },
+
   deleteBusinessHours: async (id) => {
     return await api.delete(`/content/contact/hours/${id}`);
+  },
+
+  // Home page specific sections
+  saveHeroStat: async (data) => {
+    return await api.post('/content/home/hero-stats', data);
+  },
+
+  updateHeroStat: async (id, data) => {
+    return await api.put(`/content/home/hero-stats/${id}`, data);
+  },
+
+  saveProblemStat: async (data) => {
+    return await api.post('/content/home/problem-stats', data);
+  },
+
+  updateProblemStat: async (id, data) => {
+    return await api.put(`/content/home/problem-stats/${id}`, data);
+  },
+
+  saveSolutionCard: async (data) => {
+    return await api.post('/content/home/solution-cards', data);
+  },
+
+  updateSolutionCard: async (id, data) => {
+    return await api.put(`/content/home/solution-cards/${id}`, data);
+  },
+
+  saveImpactStat: async (data) => {
+    return await api.post('/content/home/impact-stats', data);
+  },
+
+  updateImpactStat: async (id, data) => {
+    return await api.put(`/content/home/impact-stats/${id}`, data);
+  },
+
+  // Partners
+  getPartners: async () => {
+    return await api.get('/content/partners');
+  },
+
+  savePartner: async (data, imageFile) => {
+    const formData = new FormData();
+    Object.keys(data).forEach(key => {
+      if (data[key] !== null && data[key] !== undefined) {
+        formData.append(key, data[key]);
+      }
+    });
+    if (imageFile) {
+      formData.append('image', imageFile);
+    }
+    return await api.post('/content/partners', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    });
+  },
+
+  updatePartner: async (id, data, imageFile) => {
+    const formData = new FormData();
+    Object.keys(data).forEach(key => {
+      if (data[key] !== null && data[key] !== undefined) {
+        formData.append(key, data[key]);
+      }
+    });
+    if (imageFile) {
+      formData.append('image', imageFile);
+    }
+    return await api.put(`/content/partners/${id}`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    });
+  },
+
+  deletePartner: async (id) => {
+    return await api.delete(`/content/partners/${id}`);
   },
 };
 

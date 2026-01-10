@@ -1,4 +1,5 @@
 import React from 'react';
+import { getPartnerImage } from '../utils/partnerImages';
 import './PartnersSection.css';
 
 const PartnersSection = () => {
@@ -7,48 +8,42 @@ const PartnersSection = () => {
       id: 1,
       name: 'PATNUC Cameroon',
       website: 'https://patnuc.cm',
-      logo: '/logos/patnuc-cameroon.svg', // SVG placeholder - replace with actual logo
-      logoPng: '/logos/patnuc-cameroon.png', // Fallback PNG
+      logo: 'patnuc.jpeg', // Logo filename from assets
       alt: 'PATNUC Cameroon Logo'
     },
     {
       id: 2,
       name: 'World Bank',
       website: 'https://www.worldbank.org',
-      logo: '/logos/world-bank.svg', // SVG placeholder - replace with actual logo (requires permission)
-      logoPng: '/logos/world-bank.png', // Fallback PNG
+      logo: 'world bank.jpeg', // Logo filename from assets (note: has space)
       alt: 'World Bank Logo'
     },
     {
       id: 3,
       name: 'MINPOSTE',
       website: 'https://www.minpostel.gov.cm',
-      logo: '/logos/minposte.svg', // SVG placeholder - replace with actual logo
-      logoPng: '/logos/minposte.png', // Fallback PNG
+      logo: 'minpostel.jpeg', // Logo filename from assets
       alt: 'MINPOSTE Logo'
     },
     {
       id: 4,
       name: 'MINADER',
       website: 'https://www.minader.cm',
-      logo: '/logos/minader.svg', // SVG placeholder - replace with actual logo
-      logoPng: '/logos/minader.png', // Fallback PNG
+      logo: 'minader.jpeg', // Logo filename from assets
       alt: 'MINADER Logo'
     },
     {
       id: 5,
       name: 'MINEPIA',
       website: 'https://www.minepia.cm',
-      logo: '/logos/minepia.svg', // SVG placeholder - replace with actual logo
-      logoPng: '/logos/minepia.png', // Fallback PNG
+      logo: 'minepia.jpeg', // Logo filename from assets
       alt: 'MINEPIA Logo'
     },
     {
       id: 6,
       name: 'MINMIDT',
       website: 'https://minmidt.com',
-      logo: '/logos/minmidt.svg', // SVG placeholder - replace with actual logo
-      logoPng: '/logos/minmidt.png', // Fallback PNG
+      logo: 'minmidt.jpeg', // Logo filename from assets
       alt: 'MINMIDT Logo'
     }
   ];
@@ -87,17 +82,10 @@ const PartnersSection = () => {
               >
                 <div className="partner-logo-container">
                   <img
-                    src={partner.logo}
+                    src={getPartnerImage(partner.logo)}
                     alt={partner.alt}
                     className="partner-logo"
-                    onError={(e) => {
-                      // Try PNG fallback if SVG fails
-                      if (e.target.src.includes('.svg') && partner.logoPng) {
-                        e.target.src = partner.logoPng;
-                        return;
-                      }
-                      handleLogoError(e, partner.name);
-                    }}
+                    onError={(e) => handleLogoError(e, partner.name)}
                     loading="lazy"
                   />
                 </div>

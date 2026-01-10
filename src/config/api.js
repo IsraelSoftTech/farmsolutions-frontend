@@ -1,16 +1,33 @@
 // API Configuration
+// Support both old REACT_APP_API_VERSION and new REACT_APP_API_PREFIX
+const getApiPrefix = () => {
+  if (process.env.REACT_APP_API_PREFIX) {
+    return process.env.REACT_APP_API_PREFIX;
+  }
+  // Backward compatibility: if API_VERSION is set, use it
+  if (process.env.REACT_APP_API_VERSION) {
+    return `/${process.env.REACT_APP_API_VERSION}`;
+  }
+  // Default to /api to match backend
+  return '/api';
+};
+
 const API_CONFIG = {
   baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000',
-  version: process.env.REACT_APP_API_VERSION || 'v1',
+  apiPrefix: getApiPrefix(),
   timeout: 30000, // 30 seconds
 };
 
 // Construct full API URL
 const getApiUrl = (endpoint = '') => {
   const baseUrl = API_CONFIG.baseURL.replace(/\/$/, ''); // Remove trailing slash
-  const version = API_CONFIG.version ? `/${API_CONFIG.version}` : '';
+  const apiPrefix = API_CONFIG.apiPrefix;
   const path = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
-  return `${baseUrl}${version}${path}`;
+  // If endpoint already starts with /api, don't add it again
+  if (path.startsWith('/api')) {
+    return `${baseUrl}${path}`;
+  }
+  return `${baseUrl}${apiPrefix}${path}`;
 };
 
 // API Endpoints
@@ -83,8 +100,10 @@ export const apiRequest = async (endpoint, options = {}) => {
 
     const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error(data.message || `HTTP error! status: ${response.status}`);
+    // If backend returns success: false, we should handle it as an error
+    if (!response.ok || (data && data.success === false)) {
+      const errorMessage = data?.error || data?.message || `HTTP error! status: ${response.status}`;
+      throw new Error(errorMessage);
     }
 
     return {
@@ -94,6 +113,7 @@ export const apiRequest = async (endpoint, options = {}) => {
     };
   } catch (error) {
     console.error('API Request Error:', error);
+    // Re-throw with more context
     throw error;
   }
 };
