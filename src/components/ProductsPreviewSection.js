@@ -18,7 +18,7 @@ const ProductsPreviewSection = () => {
       <div className="container">
         <h2 className="section-title">Our Products</h2>
         <p className="section-subtitle">
-          Innovative solar-powered storage solutions and smart packaging designed to 
+          Innovative hybrid-powered storage solutions and smart packaging designed to 
           reduce post-harvest losses and increase farmer income.
         </p>
         
@@ -28,7 +28,7 @@ const ProductsPreviewSection = () => {
               <div className="product-preview-image">
                 {product.image && getProductImage(product.image) ? (
                   <img src={getProductImage(product.image)} alt={product.name} />
-                ) : product.category === 'Solar Storage System' ? (
+                ) : product.category === 'Hybrid-Powered Storage System' ? (
                   <FaSolarPanel className="product-icon" />
                 ) : (
                   <FaBox className="product-icon" />

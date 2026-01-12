@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaChartLine, FaDollarSign, FaGlobe, FaArrowUp } from 'react-icons/fa';
+import { FaChartLine, FaDollarSign, FaGlobe, FaArrowUp, FaLeaf } from 'react-icons/fa';
 import './ProblemSection.css';
 
 const ProblemSection = () => {
@@ -23,6 +23,11 @@ const ProblemSection = () => {
       number: '30%',
       label: 'Income increase potential with proper storage',
       icon: FaArrowUp
+    },
+    {
+      number: '10%',
+      label: 'Global emissions from food waste/spoilage',
+      icon: FaLeaf
     }
   ];
 

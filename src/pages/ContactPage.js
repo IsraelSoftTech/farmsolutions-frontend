@@ -139,7 +139,7 @@ const ContactPage = () => {
                     onChange={handleChange}
                   >
                     <option value="">Select an option</option>
-                    <option value="solar-storage">Solar Storage Systems</option>
+                    <option value="hybrid-storage">Hybrid-Powered Storage Systems</option>
                     <option value="smart-packaging">Smart Packaging</option>
                     <option value="consultation">Consultation</option>
                     <option value="other">Other</option>

@@ -14,7 +14,7 @@ const ProductsPage = () => {
         <div className="container">
           <h1 className="page-title">Our Products</h1>
           <p className="page-subtitle">
-            Innovative solar-powered storage solutions and smart packaging designed to 
+            Innovative hybrid-powered storage solutions and smart packaging designed to 
             reduce post-harvest losses and increase farmer income.
           </p>
         </div>
@@ -23,9 +23,9 @@ const ProductsPage = () => {
       {/* Solar Storage Systems */}
       <section className="products-section">
         <div className="container">
-          <h2 className="section-title">Solar Storage Systems</h2>
+          <h2 className="section-title">Hybrid-Powered Storage Systems</h2>
           <p className="section-subtitle">
-            Climate-controlled storage rooms powered by renewable solar energy
+            Climate-controlled storage rooms powered by hybrid energy (Solar thermal, Solar PV, and High Energy density Briquettes)
           </p>
           
           <div className="products-grid">
@@ -117,7 +117,7 @@ const ProductsPage = () => {
           <div className="cta-content">
             <h2>Ready to Reduce Your Post-Harvest Losses?</h2>
             <p>
-              Join thousands of farmers who have increased their income with our solar-powered solutions
+              Join thousands of farmers who have increased their income with our hybrid-powered solutions
             </p>
             <div className="cta-buttons">
               <Link to="/contact" className="btn-primary">

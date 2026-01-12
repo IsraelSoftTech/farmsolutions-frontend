@@ -32,6 +32,10 @@ body {
   line-height: 1.6;
   color: var(--text-dark);
   background: var(--bg-white);
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+  position: relative;
 }
 
 code {
@@ -44,6 +48,8 @@ code {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Buttons */
@@ -172,12 +178,22 @@ code {
 /* Smooth Scrolling */
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
 }
 
 /* Link Styles */
 a {
   color: inherit;
   text-decoration: none;
+}
+
+/* Global Image Responsive */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
 /* Utility Classes */

@@ -44,7 +44,7 @@ const ProductDetailPage = () => {
             <div className="product-image-large">
               {product.image && getProductImage(product.image) ? (
                 <img src={getProductImage(product.image)} alt={product.name} />
-              ) : product.category === 'Solar Storage System' ? (
+              ) : product.category === 'Hybrid-Powered Storage System' ? (
                 <FaSolarPanel className="product-icon-large" />
               ) : (
                 <FaBox className="product-icon-large" />

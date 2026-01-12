@@ -22,6 +22,11 @@ const ImpactSection = () => {
       number: '50%',
       label: 'Quality Improvement',
       description: 'Better product quality maintained'
+    },
+    {
+      number: '30%',
+      label: 'Global GHG Emission Reduction',
+      description: 'Reduction in greenhouse gas emissions'
     }
   ];
 

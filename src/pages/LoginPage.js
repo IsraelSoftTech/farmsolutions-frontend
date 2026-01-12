@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaArrowLeft } from 'react-icons/fa';
+import { FaUser, FaLock, FaSignInAlt } from 'react-icons/fa';
 import './LoginPage.css';
 
 const LoginPage = () => {
@@ -8,6 +8,8 @@ const LoginPage = () => {
     username: '',
     password: ''
   });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -15,48 +17,67 @@ const LoginPage = () => {
       ...formData,
       [e.target.name]: e.target.value
     });
+    setError('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login submission
-    console.log('Login submitted:', formData);
-    
-    // Check for admin credentials
-    if (formData.username === 'farm_solution_@_2026' && formData.password === 'admin@farm') {
-      // Store admin authentication
-      localStorage.setItem('authToken', 'admin-token');
-      localStorage.setItem('user', JSON.stringify({ username: formData.username, role: 'admin' }));
-      // Navigate to admin page
-      navigate('/admin');
-    } else {
-      // For other users, you can add API call here
-      // For now, show error message
-      alert('Invalid credentials. Please try again.');
-    }
-  };
+    setError('');
+    setLoading(true);
 
-  const handleBack = () => {
-    navigate(-1);
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: formData.username,
+          password: formData.password
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        // Store token
+        localStorage.setItem('authToken', data.token);
+        // Redirect to admin
+        navigate('/admin');
+      } else {
+        setError(data.error || 'Invalid credentials');
+      }
+    } catch (err) {
+      setError('Connection error. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="login-page">
       <div className="login-container">
-        <button className="back-button" onClick={handleBack} aria-label="Go back">
-          <FaArrowLeft />
-          <span>Back</span>
-        </button>
-        
-        <div className="login-card">
+        <div className="login-box">
           <div className="login-header">
-            <h1 className="login-title">Welcome Back</h1>
-            <p className="login-subtitle">Sign in to your account to continue</p>
+            <div className="login-icon">
+              <FaSignInAlt />
+            </div>
+            <h1>Admin Login</h1>
+            <p>Sign in to access the admin panel</p>
           </div>
 
-          <form className="login-form" onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className="login-form">
+            {error && (
+              <div className="login-error">
+                {error}
+              </div>
+            )}
+
             <div className="form-group">
-              <label htmlFor="username">Username</label>
+              <label htmlFor="username">
+                <FaUser className="input-icon" />
+                Username
+              </label>
               <input
                 type="text"
                 id="username"
@@ -70,7 +91,10 @@ const LoginPage = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password">
+                <FaLock className="input-icon" />
+                Password
+              </label>
               <input
                 type="password"
                 id="password"
@@ -83,16 +107,12 @@ const LoginPage = () => {
               />
             </div>
 
-            <div className="form-options">
-              <label className="remember-me">
-                <input type="checkbox" />
-                <span>Remember me</span>
-              </label>
-              <a href="#forgot" className="forgot-password">Forgot password?</a>
-            </div>
-
-            <button type="submit" className="login-button">
-              Sign In
+            <button 
+              type="submit" 
+              className="login-button"
+              disabled={loading}
+            >
+              {loading ? 'Signing in...' : 'Sign In'}
             </button>
           </form>
         </div>

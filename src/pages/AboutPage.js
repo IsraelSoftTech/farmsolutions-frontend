@@ -3,7 +3,7 @@ import { getTeamImage } from '../utils/teamImages';
 import './AboutPage.css';
 
 const AboutPage = () => {
-  // Team members data
+  // Team members data - ordered: CTO and CEO up, COO and CFO down
   const teamMembers = [
     {
       id: 1,
@@ -13,18 +13,18 @@ const AboutPage = () => {
       image: 'T1.jpg'
     },
     {
+      id: 3,
+      name: 'Njong Nya Malaica',
+      position: 'CEO',
+      qualification: 'MBA: Project Management/Information and Communication Technology, Public Health Administrator',
+      image: 'T3.jpg'
+    },
+    {
       id: 2,
       name: 'Yasin Sidik Nkwankwa',
       position: 'Chief Operation Officer',
       qualification: 'PhD Electrical Power Systems',
       image: 'T2.jpeg'
-    },
-    {
-      id: 3,
-      name: 'Njong Nya Malaica Etaka',
-      position: 'CEO',
-      qualification: 'DIPET II Information and Communication Technology, Public Health Administrator',
-      image: 'T3.jpg'
     },
     {
       id: 4,

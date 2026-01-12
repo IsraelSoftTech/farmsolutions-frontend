@@ -1,9 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navigation from './components/Navigation';
-import AdminNavigation from './components/AdminNavigation';
 import Footer from './components/Footer';
-import AdminFooter from './components/AdminFooter';
 import Favicon from './components/Favicon';
 import AnimatedLogo from './components/AnimatedLogo';
 import HomePage from './pages/HomePage';
@@ -17,7 +15,6 @@ import ContactPage from './pages/ContactPage';
 import AboutPage from './pages/AboutPage';
 import LoginPage from './pages/LoginPage';
 import Admin from './pages/Admin';
-import Admin_Home from './pages/Admin_Home';
 import './App.css';
 
 function App() {
@@ -49,11 +46,7 @@ function App() {
             </>
           } />
           
-          {/* Admin Routes */}
-          <Route path="/admin" element={<Admin />}>
-            <Route index element={<Admin_Home />} />
-            <Route path="home" element={<Admin_Home />} />
-          </Route>
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </div>
     </Router>

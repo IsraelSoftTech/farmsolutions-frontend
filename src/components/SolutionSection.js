@@ -7,9 +7,9 @@ const SolutionSection = () => {
   const solutions = [
     {
       icon: FaSolarPanel,
-      title: 'Solar Storage Systems',
-      description: 'Climate-controlled storage rooms powered by solar energy, maintaining optimal temperature and humidity for extending crop shelf life.',
-      features: ['100% Solar Powered', 'Climate Control', 'Real-time Monitoring']
+      title: 'Hybrid-Powered Storage Systems',
+      description: 'Climate-controlled storage rooms powered by hybrid energy (Solar thermal, Solar PV, and High Energy density Briquettes), maintaining optimal temperature and humidity for extending crop shelf life.',
+      features: ['Hybrid-Powered Operation', 'Climate Control', 'Real-time Monitoring']
     },
     {
       icon: FaBox,
@@ -28,9 +28,10 @@ const SolutionSection = () => {
   return (
     <section className="solution-section">
       <div className="container">
-        <h2 className="section-title">Our Solar-Powered Solutions</h2>
+        <h2 className="section-title">Our Hybrid-Powered Solutions</h2>
         <p className="section-subtitle">
-          Innovative technology designed to reduce post-harvest losses and increase farmer income
+          Innovative technology designed to reduce post-harvest losses and increase farmer income. 
+          Solutions can be customized to fit your specific needs.
         </p>
         <div className="solution-cards">
           {solutions.map((solution, index) => {

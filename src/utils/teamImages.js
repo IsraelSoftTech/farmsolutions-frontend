@@ -1,13 +1,14 @@
 // Map team member image URLs to imported assets
 import T1 from '../assets/T1.jpg';
 import T2 from '../assets/T2.jpeg';
-import T3 from '../assets/T3.jpg';
+import T3 from '../assets/T3.jpeg';
 import T4 from '../assets/T4.jpeg';
 
 const teamImageMap = {
   'T1.jpg': T1,
   'T2.jpeg': T2,
   'T3.jpg': T3,
+  'T3.jpeg': T3,
   'T4.jpeg': T4,
   'T1': T1,
   'T2': T2,

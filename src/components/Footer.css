@@ -12,6 +12,8 @@
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 3rem;
   margin-bottom: 3rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .footer-section h3 {
@@ -81,9 +83,19 @@
   margin-bottom: 1rem;
 }
 
-.contact-info li span {
+.contact-info li span,
+.contact-info li a {
   flex: 1;
   word-wrap: break-word;
+  color: white;
+  opacity: 0.8;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.contact-info li a:hover {
+  opacity: 1;
+  color: var(--accent-green);
 }
 
 .contact-icon {

@@ -27,12 +27,12 @@ const Footer = () => {
             <p>
               Leading the way in sustainable agricultural preservation technology, 
               helping farmers reduce waste and increase profits through innovative 
-              solar-powered solutions.
+              hybrid-powered solutions.
             </p>
             <div className="social-links">
-              <a href="#" aria-label="Facebook"><FaFacebook /></a>
+              <a href="https://www.facebook.com/share/1FC9khcBtB/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><FaFacebook /></a>
               <a href="#" aria-label="Twitter"><FaTwitter /></a>
-              <a href="#" aria-label="LinkedIn"><FaLinkedin /></a>
+              <a href="https://www.linkedin.com/company/farm-solutionss/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><FaLinkedin /></a>
               <a href="#" aria-label="Instagram"><FaInstagram /></a>
             </div>
           </div>
@@ -53,7 +53,7 @@ const Footer = () => {
             <ul className="contact-info">
               <li>
                 <FaEnvelope className="contact-icon" />
-                <span>info@farmerssolution.com</span>
+                <a href="mailto:farms.solution247@gmail.com">farms.solution247@gmail.com</a>
               </li>
               <li>
                 <FaPhone className="contact-icon" />
@@ -62,6 +62,10 @@ const Footer = () => {
               <li>
                 <FaMapMarkerAlt className="contact-icon" />
                 <span>Buea</span>
+              </li>
+              <li>
+                <FaLinkedin className="contact-icon" />
+                <a href="https://www.linkedin.com/company/farm-solutionss/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
               </li>
             </ul>
           </div>

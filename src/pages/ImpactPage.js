@@ -6,35 +6,51 @@ import './ImpactPage.css';
 const ImpactPage = () => {
   const testimonials = [
     {
-      name: 'John Mwangi',
-      location: 'Kenya',
+      name: 'Metuge Paul Mesumbe',
+      location: 'South West Region, Cameroon',
       role: 'Smallholder Farmer',
       icon: FaUser,
       text: 'The Spethacs Room A transformed my tomato farming. I used to lose 40% of my harvest, now I lose less than 10%. My income has doubled!',
       rating: 5
     },
     {
-      name: 'Amina Yusuf',
-      location: 'Nigeria',
+      name: 'Ngwa Emmanuel Fru',
+      location: 'North West Region, Cameroon',
       role: 'Vegetable Farmer',
       icon: FaUserTie,
       text: 'Easy to install and maintain. My vegetables stay fresh for weeks, allowing me to sell at better prices. Best investment I\'ve made.',
       rating: 5
     },
     {
-      name: 'Rwanda Farmers Union',
-      location: 'Rwanda',
+      name: 'Obi Bessem Tabi Njang',
+      location: 'South West Region, Cameroon',
       role: 'Agricultural Cooperative',
       icon: FaUsers,
       text: 'Our cooperative serves 200 farmers. The Spethacs Room B has helped us collectively save over $50,000 in lost produce. Game changer!',
       rating: 5
     },
     {
-      name: 'Grace Okonkwo',
-      location: 'Nigeria',
+      name: 'Tchonang Orchelle Tiomela',
+      location: 'West Region, Cameroon',
       role: 'Market Vendor',
       icon: FaUserCircle,
       text: 'FreshGuard bags have revolutionized how I store and transport my vegetables. Customers love the freshness and I waste less.',
+      rating: 5
+    },
+    {
+      name: 'Amadhou Saffou Mouhammadou',
+      location: 'Adamawa Region, Cameroon',
+      role: 'Smallholder Farmer',
+      icon: FaUser,
+      text: 'The hybrid-powered storage system has been a game changer for my farm. Reduced losses significantly and increased my market opportunities.',
+      rating: 5
+    },
+    {
+      name: 'Onana Pafeyoum Idris Colon',
+      location: 'Littoral Region, Cameroon',
+      role: 'Agricultural Business Owner',
+      icon: FaUserTie,
+      text: 'Our business has seen tremendous growth since implementing the SPETHACS rooms. Quality preservation and reliable hybrid power make all the difference.',
       rating: 5
     }
   ];
