@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import { API_ENDPOINTS, api } from '../config/api';
 import './ContactPage.css';
 
 const ContactPage = () => {
@@ -10,26 +11,59 @@ const ContactPage = () => {
     message: '',
     interest: ''
   });
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState({ type: '', text: '' });
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
+    // Clear message when user starts typing
+    if (message.text) {
+      setMessage({ type: '', text: '' });
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission
-    console.log('Form submitted:', formData);
-    alert('Thank you for your message! We will get back to you soon.');
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      message: '',
-      interest: ''
-    });
+    setLoading(true);
+    setMessage({ type: '', text: '' });
+
+    try {
+      const response = await api.post(API_ENDPOINTS.contact, formData);
+
+      if (response.ok && response.data.success) {
+        setMessage({
+          type: 'success',
+          text: response.data.message || 'Thank you for your message! We will get back to you soon.'
+        });
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          message: '',
+          interest: ''
+        });
+        // Auto-hide success message after 5 seconds
+        setTimeout(() => {
+          setMessage({ type: '', text: '' });
+        }, 5000);
+      } else {
+        setMessage({
+          type: 'error',
+          text: response.data.error || 'Failed to send message. Please try again.'
+        });
+      }
+    } catch (error) {
+      setMessage({
+        type: 'error',
+        text: 'Network error. Please check your connection and try again.'
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -60,7 +94,7 @@ const ContactPage = () => {
                   </div>
                   <div>
                     <h4>Email</h4>
-                    <p>info@farmerssolution.com</p>
+                    <p>farms.solution247@gmail.com</p>
                   </div>
                 </div>
 
@@ -94,6 +128,16 @@ const ContactPage = () => {
             </div>
 
             <div className="contact-form-container">
+              {message.text && (
+                <div className={`contact-message ${message.type}`}>
+                  {message.type === 'success' ? (
+                    <FaCheckCircle className="message-icon" />
+                  ) : (
+                    <FaTimesCircle className="message-icon" />
+                  )}
+                  <span>{message.text}</span>
+                </div>
+              )}
               <form className="contact-form" onSubmit={handleSubmit}>
                 <div className="form-group">
                   <label htmlFor="name">Full Name *</label>
@@ -158,8 +202,8 @@ const ContactPage = () => {
                   ></textarea>
                 </div>
 
-                <button type="submit" className="btn-primary">
-                  Send Message
+                <button type="submit" className="btn-primary" disabled={loading}>
+                  {loading ? 'Sending...' : 'Send Message'}
                 </button>
               </form>
             </div>
