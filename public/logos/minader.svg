@@ -1,0 +1,7 @@
+<svg width="400" height="200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="200" fill="#2D5016" rx="8"/>
+  <path d="M 100 140 Q 150 80 200 140 T 300 140" stroke="white" stroke-width="4" fill="none"/>
+  <path d="M 120 120 L 130 160 M 180 120 L 190 160 M 240 120 L 250 160" stroke="white" stroke-width="3"/>
+  <text x="200" y="90" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="white" text-anchor="middle">MINADER</text>
+  <text x="200" y="175" font-family="Arial, sans-serif" font-size="12" fill="rgba(255,255,255,0.8)" text-anchor="middle">Agriculture &amp; Rural Development</text>
+</svg>

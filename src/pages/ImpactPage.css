@@ -1,0 +1,316 @@
+.impact-page {
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+}
+
+.impact-page .page-title {
+  color: #FFFFFF;
+  font-family: 'Poppins', sans-serif;
+}
+
+.impact-page .section-title {
+  color: var(--primary-green);
+  font-family: 'Poppins', sans-serif;
+}
+
+.impact-stats-section {
+  padding: 5rem 0;
+  background: var(--bg-light);
+}
+
+.impact-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+}
+
+.impact-stat-card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.impact-stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.impact-stat-number {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--primary-green);
+  margin-bottom: 0.5rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.impact-stat-label {
+  color: var(--text-dark);
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.testimonials-section {
+  padding: 5rem 0;
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2.5rem;
+  margin-top: 3rem;
+}
+
+.testimonial-card-large {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.testimonial-card-large:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.testimonial-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.testimonial-avatar {
+  font-size: 3rem;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-light);
+  border-radius: 50%;
+  color: var(--primary-green);
+}
+
+.testimonial-avatar svg {
+  width: 2rem;
+  height: 2rem;
+}
+
+.testimonial-info h4 {
+  color: var(--text-dark);
+  margin: 0 0 0.3rem 0;
+  font-size: 1.2rem;
+}
+
+.testimonial-role {
+  color: var(--primary-green);
+  font-weight: 500;
+  margin: 0 0 0.2rem 0;
+  font-size: 0.9rem;
+}
+
+.testimonial-location {
+  color: var(--text-light);
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.testimonial-rating {
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 0.2rem;
+}
+
+.testimonial-rating .star {
+  color: var(--sunny-yellow);
+  font-size: 1.2rem;
+}
+
+.testimonial-text-large {
+  color: var(--text-light);
+  font-style: italic;
+  line-height: 1.6;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.cta-section {
+  padding: 5rem 0;
+  background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+  color: white;
+}
+
+.cta-content {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.cta-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.cta-content p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  .impact-stats-section {
+    padding: 3rem 0;
+  }
+
+  .impact-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .impact-stat-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .impact-stat-number {
+    font-size: 2.5rem;
+  }
+
+  .impact-stat-label {
+    font-size: 1rem;
+  }
+
+  .testimonials-section {
+    padding: 3rem 0;
+  }
+
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .testimonial-card-large {
+    padding: 2rem 1.5rem;
+  }
+
+  .testimonial-header {
+    gap: 0.875rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .testimonial-avatar {
+    width: 50px;
+    height: 50px;
+  }
+
+  .testimonial-avatar svg {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .testimonial-info h4 {
+    font-size: 1.1rem;
+  }
+
+  .cta-section {
+    padding: 3rem 0;
+  }
+
+  .cta-content h2 {
+    font-size: 2rem;
+  }
+
+  .cta-content p {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .impact-stats-section {
+    padding: 2.5rem 0;
+  }
+
+  .impact-stats-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .impact-stat-card {
+    padding: 1.75rem 1.25rem;
+  }
+
+  .impact-stat-number {
+    font-size: 2.25rem;
+  }
+
+  .impact-stat-label {
+    font-size: 0.95rem;
+  }
+
+  .testimonials-section {
+    padding: 2.5rem 0;
+  }
+
+  .testimonials-grid {
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .testimonial-card-large {
+    padding: 1.75rem 1.25rem;
+  }
+
+  .testimonial-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .testimonial-info h4 {
+    font-size: 1rem;
+  }
+
+  .testimonial-text-large {
+    font-size: 0.95rem;
+  }
+
+  .cta-section {
+    padding: 2.5rem 0;
+  }
+
+  .cta-content {
+    padding: 0 15px;
+  }
+
+  .cta-content h2 {
+    font-size: 1.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .cta-content p {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .impact-stat-card {
+    padding: 1.5rem 1rem;
+  }
+
+  .impact-stat-number {
+    font-size: 2rem;
+  }
+
+  .testimonial-card-large {
+    padding: 1.5rem 1rem;
+  }
+
+  .cta-content h2 {
+    font-size: 1.5rem;
+  }
+}

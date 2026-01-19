@@ -1,0 +1,129 @@
+.how-it-works-page {
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+}
+
+.page-hero {
+  background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+  color: white;
+  padding: 4rem 0 3rem;
+  text-align: center;
+}
+
+.how-it-works-page .page-title {
+  color: #FFFFFF;
+  font-family: 'Poppins', sans-serif;
+}
+
+.how-it-works-page .section-title {
+  color: var(--primary-green);
+  font-family: 'Poppins', sans-serif;
+}
+
+.steps-section {
+  padding: 5rem 0;
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2.5rem;
+  margin-top: 3rem;
+}
+
+.step-card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  position: relative;
+  transition: all 0.3s ease;
+  border-top: 4px solid var(--primary-green);
+}
+
+.step-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.step-number {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+  background: var(--sunny-yellow);
+  color: var(--text-dark);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.2rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.step-icon {
+  font-size: 4rem;
+  margin: 1rem 0;
+  color: var(--primary-green);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.step-icon svg {
+  width: 4rem;
+  height: 4rem;
+}
+
+.step-card h3 {
+  color: var(--primary-green);
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+}
+
+.step-card p {
+  color: var(--text-light);
+  line-height: 1.6;
+}
+
+.cta-section {
+  padding: 5rem 0;
+  background: var(--bg-light);
+}
+
+.cta-content {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.cta-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--primary-green);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+}
+
+.cta-content p {
+  font-size: 1.2rem;
+  color: var(--text-light);
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  .steps-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .step-card {
+    padding: 2rem 1.5rem;
+  }
+}

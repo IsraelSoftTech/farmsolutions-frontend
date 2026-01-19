@@ -1,0 +1,334 @@
+.product-detail-page {
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+}
+
+.product-not-found {
+  padding: 5rem 0;
+  text-align: center;
+}
+
+.breadcrumb-section {
+  padding: 2rem 0 1rem;
+  background: var(--bg-light);
+}
+
+.breadcrumb {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.breadcrumb a {
+  color: var(--text-light);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.breadcrumb a:hover {
+  color: var(--primary-green);
+}
+
+.product-header-section {
+  padding: 3rem 0;
+}
+
+.product-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.product-image-large {
+  height: 400px;
+  width: 100%;
+  background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.product-image-large img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 8px;
+}
+
+.product-icon-large {
+  font-size: 6rem;
+  color: white;
+  position: absolute;
+  z-index: 1;
+}
+
+/* Fallback when no image */
+.product-image-large:not(:has(img)) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.product-category {
+  color: var(--accent-green);
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+
+.product-info h1 {
+  font-size: 2.5rem;
+  color: var(--text-dark);
+  margin: 0;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+}
+
+.product-description-large {
+  font-size: 1.1rem;
+  color: var(--text-light);
+  line-height: 1.6;
+}
+
+.product-highlight {
+  background: var(--bg-light);
+  padding: 1.5rem;
+  border-radius: 10px;
+}
+
+.product-price-large {
+  font-size: 1.5rem;
+  color: var(--sunny-yellow);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.product-specs-summary {
+  color: var(--text-light);
+  font-size: 0.95rem;
+}
+
+.product-actions-header {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.specs-section {
+  padding: 5rem 0;
+  background: var(--bg-light);
+}
+
+.specs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.spec-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  font-family: 'Poppins', sans-serif;
+}
+
+.spec-card h4 {
+  color: var(--primary-green);
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.spec-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.spec-card li {
+  padding: 0.5rem 0;
+  color: var(--text-dark);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.features-benefits-section {
+  padding: 5rem 0;
+}
+
+.features-benefits-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  margin-top: 3rem;
+}
+
+.features-box,
+.benefits-box {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  font-family: 'Poppins', sans-serif;
+}
+
+.features-box h3,
+.benefits-box h3 {
+  color: var(--primary-green);
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+}
+
+.features-box ul,
+.benefits-box ul {
+  list-style: none;
+  padding: 0;
+}
+
+.features-box li,
+.benefits-box li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--text-dark);
+}
+
+.check-icon {
+  color: var(--primary-green);
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.star-icon {
+  color: var(--primary-green);
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.testimonials-section {
+  padding: 5rem 0;
+  background: var(--bg-light);
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.testimonial-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  font-family: 'Poppins', sans-serif;
+}
+
+.testimonial-rating {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.testimonial-rating .star {
+  color: var(--sunny-yellow);
+  font-size: 1.2rem;
+}
+
+.testimonial-text {
+  color: var(--text-light);
+  font-style: italic;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.testimonial-author {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.testimonial-author strong {
+  color: var(--text-dark);
+}
+
+.testimonial-author span {
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.product-cta-section {
+  padding: 5rem 0;
+}
+
+.cta-box {
+  text-align: center;
+  background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+  color: white;
+  padding: 3rem;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.cta-box h2 {
+  margin-bottom: 1rem;
+  font-size: 2.5rem;
+}
+
+.cta-box p {
+  margin-bottom: 2rem;
+  opacity: 0.9;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 968px) {
+  .product-header {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .product-image-large {
+    height: 300px;
+  }
+
+  .features-benefits-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .product-info h1 {
+    font-size: 2rem;
+  }
+
+  .specs-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-box h2 {
+    font-size: 2rem;
+  }
+}

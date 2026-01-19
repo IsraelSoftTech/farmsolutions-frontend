@@ -1,0 +1,140 @@
+.impact-section {
+  background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+  color: white;
+  padding: 5rem 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+.impact-section .section-title,
+.impact-section .section-subtitle {
+  color: white;
+  font-family: 'Poppins', sans-serif;
+}
+
+.impact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.impact-item {
+  text-align: center;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.impact-item:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.impact-number {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--sunny-yellow);
+  margin-bottom: 0.5rem;
+  line-height: 1;
+  font-family: 'Poppins', sans-serif;
+  text-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+}
+
+.impact-label-white {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #FFFFFF !important;
+  margin-bottom: 0.5rem;
+  font-family: 'Poppins', sans-serif;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.impact-description {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+}
+
+@media (max-width: 768px) {
+  .impact-section {
+    padding: 3rem 0;
+  }
+
+  .impact-section .section-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .impact-section .section-subtitle {
+    font-size: 1rem;
+  }
+
+  .impact-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .impact-item {
+    padding: 1.5rem 1rem;
+  }
+
+  .impact-number {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .impact-label-white {
+    font-size: 1.1rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .impact-description {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .impact-section {
+    padding: 2.5rem 0;
+  }
+
+  .impact-section .section-title {
+    font-size: 1.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .impact-section .section-subtitle {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .impact-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+
+  .impact-item {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .impact-number {
+    font-size: 2.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .impact-label-white {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .impact-description {
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+}
