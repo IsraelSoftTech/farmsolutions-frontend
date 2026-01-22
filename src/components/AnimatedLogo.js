@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import logo from '../assets/logo.png';
+import { useLogo } from '../hooks/useLogo';
 import './AnimatedLogo.css';
 
 const AnimatedLogo = () => {
   const [isAnimating, setIsAnimating] = useState(true);
   const location = useLocation();
+  const { logoUrl } = useLogo();
 
   useEffect(() => {
     // Show animation on route change (website launch or page navigation)
@@ -18,7 +19,7 @@ const AnimatedLogo = () => {
     return () => clearTimeout(timer);
   }, [location.pathname]);
 
-  if (!isAnimating) return null;
+  if (!isAnimating || !logoUrl) return null;
 
   return (
     <div className="animated-logo-overlay">
@@ -26,7 +27,7 @@ const AnimatedLogo = () => {
         {/* Actual logo image - revealed progressively */}
         <div className="logo-image-mask">
           <img 
-            src={logo} 
+            src={logoUrl} 
             alt="Farmers Solutions Logo" 
             className="logo-image"
           />

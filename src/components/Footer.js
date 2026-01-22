@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
-import logo from '../assets/logo.png';
+import { useLogo } from '../hooks/useLogo';
 import './Footer.css';
 
 const Footer = () => {
   const [email, setEmail] = useState('');
+  const { logoUrl } = useLogo();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,7 +22,7 @@ const Footer = () => {
         <div className="footer-content">
           <div className="footer-section">
             <h3>
-              <img src={logo} alt="Farmers Solutions Logo" className="footer-logo-img" />
+              {logoUrl && <img src={logoUrl} alt="Farmers Solutions Logo" className="footer-logo-img" />}
               <span>About Farmers Solutions</span>
             </h3>
             <p>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FaSolarPanel, FaBox } from 'react-icons/fa';
 import { HiCheck } from 'react-icons/hi';
+import { getImageUrl } from '../utils/imageUtils';
 import api from '../config/api';
 import './ProductsPage.css';
 
@@ -16,14 +16,71 @@ const ProductsPage = () => {
   const fetchProductsContent = async () => {
     try {
       setLoading(true);
-      const response = await api.get('/products-content');
-      if (response.ok && response.data.success) {
-        const contentMap = {};
-        Object.keys(response.data.data).forEach(section => {
-          contentMap[section] = response.data.data[section].content;
+      // Fetch content
+      const contentResponse = await api.get(`/products-content?t=${Date.now()}`);
+      const contentMap = {};
+      
+      if (contentResponse.ok && contentResponse.data.success) {
+        Object.keys(contentResponse.data.data).forEach(section => {
+          contentMap[section] = contentResponse.data.data[section].content;
         });
-        setContent(contentMap);
       }
+      
+      // Fetch product images from images API
+      try {
+        const imagesResponse = await api.get(`/images?category=product&t=${Date.now()}`);
+        if (imagesResponse.ok && imagesResponse.data.success) {
+          const productImages = imagesResponse.data.data;
+          
+          // Update product images in solar_storage section
+          if (contentMap.solar_storage && contentMap.solar_storage.products) {
+            contentMap.solar_storage.products = contentMap.solar_storage.products.map((product, index) => {
+              // Try to find image by matching name in description/alt_text
+              let matchedImage = productImages.find(img => 
+                img.alt_text && product.name && 
+                img.alt_text.toLowerCase().includes(product.name.toLowerCase())
+              );
+              
+              // If no match, try by index
+              if (!matchedImage && productImages[index]) {
+                matchedImage = productImages[index];
+              }
+              
+              // Use matched image or keep existing
+              return {
+                ...product,
+                image: matchedImage ? getImageUrl(matchedImage.url) : product.image
+              };
+            });
+          }
+          
+          // Update product images in smart_packaging section
+          if (contentMap.smart_packaging && contentMap.smart_packaging.products) {
+            contentMap.smart_packaging.products = contentMap.smart_packaging.products.map((product, index) => {
+              // Try to find image by matching name
+              let matchedImage = productImages.find(img => 
+                img.alt_text && product.name && 
+                img.alt_text.toLowerCase().includes(product.name.toLowerCase())
+              );
+              
+              // If no match, try by index (offset by solar_storage products count)
+              const offset = contentMap.solar_storage?.products?.length || 0;
+              if (!matchedImage && productImages[offset + index]) {
+                matchedImage = productImages[offset + index];
+              }
+              
+              return {
+                ...product,
+                image: matchedImage ? getImageUrl(matchedImage.url) : product.image
+              };
+            });
+          }
+        }
+      } catch (imagesError) {
+        console.error('Error fetching product images:', imagesError);
+      }
+      
+      setContent(contentMap);
     } catch (error) {
       console.error('Error fetching products content:', error);
     } finally {
@@ -70,15 +127,11 @@ const ProductsPage = () => {
             {(solarStorage.products || []).map(product => (
               <div key={product.id} className="product-card">
                 <div className="product-image">
-                  {product.image ? (
+                  {product.image && (
                     <img 
-                      src={product.image.startsWith('http') 
-                        ? product.image 
-                        : `https://st69310.ispot.cc/farmsolutionss/uploads/${product.image}`} 
+                      src={getImageUrl(product.image)} 
                       alt={product.name} 
                     />
-                  ) : (
-                    <FaSolarPanel className="product-icon" />
                   )}
                 </div>
                 <div className="product-content">
@@ -125,7 +178,11 @@ const ProductsPage = () => {
           <div className="products-grid packaging-grid">
             {(smartPackaging.products || []).map(product => (
               <div key={product.id} className="packaging-card">
-                <FaBox className="packaging-icon" />
+                {product.image && (
+                  <div className="packaging-image">
+                    <img src={getImageUrl(product.image)} alt={product.name} />
+                  </div>
+                )}
                 <h3>{product.name}</h3>
                 <p className="product-description">{product.description}</p>
                 

@@ -11,7 +11,6 @@ const AdminAbout = () => {
   const [activeSection, setActiveSection] = useState('hero');
   const [content, setContent] = useState({});
   const [originalContent, setOriginalContent] = useState({});
-  const [uploading, setUploading] = useState({});
   const [editingFields, setEditingFields] = useState({});
   const { notifications, showSuccess, showError, removeNotification } = useNotification();
 
@@ -107,35 +106,6 @@ const AdminAbout = () => {
     setEditingFields(prev => ({ ...prev, [fieldKey]: true }));
   };
 
-  const handleImageUpload = async (section, field, index, file) => {
-    try {
-      setUploading({ ...uploading, [`${section}-${field}-${index}`]: true });
-      
-      const formData = new FormData();
-      formData.append('image', file);
-      
-      const token = localStorage.getItem('authToken');
-      const response = await fetch(`${API_BASE_URL}/about-content/upload`, {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}` },
-        body: formData
-      });
-      
-      const result = await response.json();
-      
-      if (result.success) {
-        handleArrayItemChange(section, field, index, 'image', result.data.filename);
-        showSuccess('Image uploaded successfully!');
-      } else {
-        showError('Failed to upload image: ' + (result.error || 'Unknown error'));
-      }
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      showError('Failed to upload image. Please try again.');
-    } finally {
-      setUploading({ ...uploading, [`${section}-${field}-${index}`]: false });
-    }
-  };
 
   const saveField = async (section, field, index = null) => {
     const fieldKey = index !== null ? `${section}.${field}.${index}` : `${section}.${field}`;
@@ -428,31 +398,10 @@ const AdminAbout = () => {
                     index={index}
                     subField="qualification"
                   />
-                  <div className="image-upload-item">
-                    <label>Image</label>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => {
-                        if (e.target.files[0]) {
-                          handleImageUpload('team', 'teamMembers', index, e.target.files[0]);
-                        }
-                      }}
-                      disabled={uploading[`team-teamMembers-${index}`]}
-                    />
-                    {uploading[`team-teamMembers-${index}`] && (
-                      <p className="upload-status">Uploading...</p>
-                    )}
-                    {member.image && (
-                      <div className="image-preview">
-                        <img 
-                          src={member.image.startsWith('http') ? member.image : `https://st69310.ispot.cc/farmsolutionss/uploads/${member.image}`} 
-                          alt={member.name} 
-                        />
-                        <span>{member.image}</span>
-                      </div>
-                    )}
-                  </div>
+                  <p className="form-help-text">
+                    <strong>Note:</strong> Team member images are managed in the <strong>Images</strong> section. 
+                    Upload images with category "Team Member Photos" there, including name, role, and qualification.
+                  </p>
                   <button onClick={() => removeArrayItem('team', 'teamMembers', index)}>Remove Member</button>
                 </div>
               ))}

@@ -11,7 +11,6 @@ const AdminHome = () => {
   const [activeSection, setActiveSection] = useState('hero');
   const [content, setContent] = useState({});
   const [originalContent, setOriginalContent] = useState({});
-  const [uploading, setUploading] = useState({});
   const [editingFields, setEditingFields] = useState({});
   const { notifications, showSuccess, showError, removeNotification } = useNotification();
 
@@ -111,43 +110,6 @@ const AdminHome = () => {
     setEditingFields(prev => ({ ...prev, [fieldKey]: true }));
   };
 
-  const handleImageUpload = async (section, field, index, file) => {
-    try {
-      setUploading({ ...uploading, [`${section}-${field}-${index}`]: true });
-      
-      const formData = new FormData();
-      formData.append('image', file);
-      
-      const token = localStorage.getItem('authToken');
-      const response = await fetch(`${API_BASE_URL}/home-content/upload`, {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}` },
-        body: formData
-      });
-      
-      const result = await response.json();
-      
-      if (result.success) {
-        if (field === 'teamMembers') {
-          handleArrayItemChange(section, field, index, 'image', result.data.filename);
-        } else if (field === 'partners') {
-          handleArrayItemChange(section, field, index, 'logo', result.data.filename);
-        } else {
-          const newArray = [...(content[section][field] || [])];
-          newArray[index] = result.data.filename;
-          handleInputChange(section, field, newArray);
-        }
-        showSuccess('Image uploaded successfully!');
-      } else {
-        showError('Failed to upload image: ' + (result.error || 'Unknown error'));
-      }
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      showError('Failed to upload image. Please try again.');
-    } finally {
-      setUploading({ ...uploading, [`${section}-${field}-${index}`]: false });
-    }
-  };
 
   const saveField = async (section, field, index = null) => {
     const fieldKey = index !== null ? `${section}.${field}.${index}` : `${section}.${field}`;
@@ -390,51 +352,10 @@ const AdminHome = () => {
             </div>
             <div className="form-group">
               <label>Banner Images</label>
-              {(content.hero?.bannerImages || []).map((image, index) => (
-                <div key={index} className="image-upload-item">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={async (e) => {
-                      if (e.target.files[0]) {
-                        try {
-                          setUploading({ ...uploading, [`hero-bannerImages-${index}`]: true });
-                          const formData = new FormData();
-                          formData.append('image', e.target.files[0]);
-                          const token = localStorage.getItem('authToken');
-                          const response = await fetch(`${API_BASE_URL}/home-content/upload`, {
-                            method: 'POST',
-                            headers: { 'Authorization': `Bearer ${token}` },
-                            body: formData
-                          });
-                          const result = await response.json();
-                          if (result.success) {
-                            const newArray = [...(content.hero?.bannerImages || [])];
-                            newArray[index] = result.data.filename;
-                            handleInputChange('hero', 'bannerImages', newArray);
-                            showSuccess('Image uploaded successfully!');
-                          } else {
-                            showError('Failed to upload image');
-                          }
-                        } catch (error) {
-                          showError('Failed to upload image');
-                        } finally {
-                          setUploading({ ...uploading, [`hero-bannerImages-${index}`]: false });
-                        }
-                      }
-                    }}
-                    disabled={uploading[`hero-bannerImages-${index}`]}
-                  />
-                  {image && (
-                    <div className="image-preview">
-                      <img src={image.startsWith('http') ? image : `https://st69310.ispot.cc/farmsolutionss/uploads/${image}`} alt={`Banner ${index + 1}`} />
-                      <span>{image}</span>
-                    </div>
-                  )}
-                  <button onClick={() => removeArrayItem('hero', 'bannerImages', index)}>Remove</button>
-                </div>
-              ))}
-              <button onClick={() => addArrayItem('hero', 'bannerImages', '')}>Add Banner Image</button>
+              <p className="form-help-text">
+                <strong>Note:</strong> Banner images are managed in the <strong>Images</strong> section. 
+                Upload images with category "Banner Images" there, and they will appear here automatically.
+              </p>
             </div>
             <div className="form-group">
               <label>Stats</label>
@@ -749,25 +670,10 @@ const AdminHome = () => {
                     placeholder="Qualification"
                     index={index}
                   />
-                  <div className="image-upload-item">
-                    <label>Image</label>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => {
-                        if (e.target.files[0]) {
-                          handleImageUpload('team', 'teamMembers', index, e.target.files[0]);
-                        }
-                      }}
-                      disabled={uploading[`team-teamMembers-${index}`]}
-                    />
-                    {member.image && (
-                      <div className="image-preview">
-                        <img src={member.image.startsWith('http') ? member.image : `https://st69310.ispot.cc/farmsolutionss/uploads/${member.image}`} alt={member.name} />
-                        <span>{member.image}</span>
-                      </div>
-                    )}
-                  </div>
+                  <p className="form-help-text">
+                    <strong>Note:</strong> Team member images are managed in the <strong>Images</strong> section. 
+                    Upload images with category "Team Member Photos" there, including name, role, and qualification.
+                  </p>
                   <button onClick={() => removeArrayItem('team', 'teamMembers', index)}>Remove Member</button>
                 </div>
               ))}
@@ -858,25 +764,10 @@ const AdminHome = () => {
                     placeholder="Website URL"
                     index={index}
                   />
-                  <div className="image-upload-item">
-                    <label>Logo</label>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => {
-                        if (e.target.files[0]) {
-                          handleImageUpload('partners', 'partners', index, e.target.files[0]);
-                        }
-                      }}
-                      disabled={uploading[`partners-partners-${index}`]}
-                    />
-                    {partner.logo && (
-                      <div className="image-preview">
-                        <img src={partner.logo.startsWith('http') ? partner.logo : `https://st69310.ispot.cc/farmsolutionss/uploads/${partner.logo}`} alt={partner.name} />
-                        <span>{partner.logo}</span>
-                      </div>
-                    )}
-                  </div>
+                  <p className="form-help-text">
+                    <strong>Note:</strong> Partner logos are managed in the <strong>Images</strong> section. 
+                    Upload logos with category "Partner Logos" there, and they will be matched by name.
+                  </p>
                   <button onClick={() => removeArrayItem('partners', 'partners', index)}>Remove Partner</button>
                 </div>
               ))}

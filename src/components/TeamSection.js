@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getTeamImage } from '../utils/teamImages';
+import { getImageUrl } from '../utils/imageUtils';
 import api from '../config/api';
 import './TeamSection.css';
 
@@ -12,41 +12,94 @@ const TeamSection = () => {
 
   const fetchTeamContent = async () => {
     try {
-      const response = await api.get('/home-content/team');
-      if (response.ok && response.data.data) {
-        setTeamContent(response.data.data.content);
+      // Fetch content
+      const contentResponse = await api.get(`/home-content/team?t=${Date.now()}`);
+      let teamData = {
+        title: "",
+        aboutContent: [],
+        teamMembers: []
+      };
+      
+      if (contentResponse.ok && contentResponse.data.data) {
+        teamData = contentResponse.data.data.content;
+      }
+      
+      // Fetch team images from images API
+      try {
+        const imagesResponse = await api.get(`/images?category=team&t=${Date.now()}`);
+        if (imagesResponse.ok && imagesResponse.data.success) {
+          const teamImages = imagesResponse.data.data;
+          
+          // Use team images directly - they contain name, role, qualification
+          const imageBasedMembers = teamImages.map((img, index) => ({
+            id: img.id || Date.now() + index,
+            name: img.team_name || img.alt_text || img.description || `Team Member ${index + 1}`,
+            position: img.team_role || '',
+            qualification: img.team_qualification || img.description || '',
+            image: getImageUrl(img.url)
+          }));
+          
+          // Merge with content team members (for any additional metadata)
+          // If content has team members, merge by name matching
+          let updatedMembers = imageBasedMembers;
+          if (teamData.teamMembers && teamData.teamMembers.length > 0) {
+            updatedMembers = imageBasedMembers.map(imgMember => {
+              const contentMember = teamData.teamMembers.find(cm => 
+                cm.name && imgMember.name && 
+                cm.name.toLowerCase() === imgMember.name.toLowerCase()
+              );
+              
+              // If found in content, merge data (prefer image data for name/role/qualification)
+              if (contentMember) {
+                return {
+                  ...contentMember,
+                  name: imgMember.name || contentMember.name,
+                  position: imgMember.position || contentMember.position,
+                  qualification: imgMember.qualification || contentMember.qualification,
+                  image: imgMember.image
+                };
+              }
+              
+              return imgMember;
+            });
+            
+            // Add any content members not in images
+            teamData.teamMembers.forEach(contentMember => {
+              const exists = updatedMembers.find(m => 
+                m.name && contentMember.name && 
+                m.name.toLowerCase() === contentMember.name.toLowerCase()
+              );
+              if (!exists) {
+                updatedMembers.push(contentMember);
+              }
+            });
+          }
+          
+          setTeamContent({
+            ...teamData,
+            teamMembers: updatedMembers
+          });
+        } else {
+          setTeamContent(teamData);
+        }
+      } catch (imagesError) {
+        console.error('Error fetching team images:', imagesError);
+        setTeamContent(teamData);
       }
     } catch (error) {
       console.error('Error fetching team content:', error);
-      // Fallback to default content
       setTeamContent({
-        title: "Our Excellent Team",
-        aboutContent: [
-          "Farmers Solution is an agri-tech company created to tackle one of Africa's most persistent challenges: post-harvest losses and limited access to modern preservation infrastructure.",
-          "We design and deploy smart, IoT-enabled, renewable-powered cold and dry storage and preservation systems, known as SPETHACS ROOMS. These systems help farmers preserve product quality, extend shelf life, and sell at better prices.",
-          "Beyond technology, we work closely with smallholder farmers, cooperatives, aggregators, and agribusinesses, offering installation, training, maintenance, and after-sales support to ensure long-term impact and usability.",
-          "At Farmers Solution, we believe that preserving food is preserving income, dignity, and opportunity. By reducing losses, improving quality, and strengthening food systems, we help farmers move from survival to sustainability."
-        ],
-        teamMembers: [
-          { id: 1, name: 'Njong Nya Nadia Keng', position: 'CTO', qualification: 'MTech Renewable Energy Engineering, BTech Electrical and Electronics, Trained Technician', image: 'T1.jpg' },
-          { id: 3, name: 'Njong Nya Malaica', position: 'CEO', qualification: 'MBA: Project Management/Information and Communication Technology, Public Health Administrator', image: 'T3.jpg' },
-          { id: 2, name: 'Yasin Sidik Nkwankwa', position: 'Chief Operation Officer', qualification: 'PhD Electrical Power Systems', image: 'T2.jpeg' },
-          { id: 4, name: 'Ashu Diane Enow', position: 'CFO', qualification: 'MBA in Finance', image: 'T4.jpeg' }
-        ]
+        title: "",
+        aboutContent: [],
+        teamMembers: []
       });
     }
   };
 
   const getImageSrc = (image) => {
     if (!image) return null;
-    if (image.startsWith('http')) return image;
-    // Check if it's a local asset first
-    try {
-      return getTeamImage(image);
-    } catch {
-      // If not found locally, try FTP
-      return `https://st69310.ispot.cc/farmsolutionss/uploads/${image}`;
-    }
+    // Only use images from database/FTP - no local fallbacks
+    return getImageUrl(image);
   };
 
   if (!teamContent) {

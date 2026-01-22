@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import ban1 from '../assets/ban1.jpeg';
-import ban2 from '../assets/ban2.jpeg';
 import api from '../config/api';
+import { getImageUrl } from '../utils/imageUtils';
 import './Hero.css';
 
 const Hero = () => {
   const [heroContent, setHeroContent] = useState(null);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [bannerImages, setBannerImages] = useState([ban1, ban2]);
+  const [bannerImages, setBannerImages] = useState([]);
 
   useEffect(() => {
     fetchHeroContent();
@@ -17,34 +16,56 @@ const Hero = () => {
 
   const fetchHeroContent = async () => {
     try {
-      const response = await api.get('/home-content/hero');
-      if (response.ok && response.data.data) {
-        const content = response.data.data.content;
+      // Fetch content
+      const contentResponse = await api.get(`/home-content/hero?t=${Date.now()}`);
+      if (contentResponse.ok && contentResponse.data.data) {
+        const content = contentResponse.data.data.content;
         setHeroContent(content);
-        
-        // Load banner images from FTP if available
-        if (content.bannerImages && content.bannerImages.length > 0) {
-          const images = content.bannerImages.map(img => {
-            if (img.startsWith('http')) return img;
-            return `https://st69310.ispot.cc/farmsolutionss/uploads/${img}`;
-          });
+      }
+      
+      // Fetch banner images directly from images API
+      try {
+        const imagesResponse = await api.get(`/images?category=banner&t=${Date.now()}`);
+        if (imagesResponse.ok && imagesResponse.data.success) {
+          const images = imagesResponse.data.data
+            .map(img => getImageUrl(img.url))
+            .filter(url => url); // Filter out any null/empty URLs
           setBannerImages(images);
+        } else {
+          // Fallback to content bannerImages if images API fails
+          const content = contentResponse.ok ? contentResponse.data.data.content : {};
+          if (content.bannerImages && content.bannerImages.length > 0) {
+            const images = content.bannerImages
+              .filter(img => img && img.trim())
+              .map(img => getImageUrl(img));
+            setBannerImages(images);
+          } else {
+            setBannerImages([]);
+          }
+        }
+      } catch (imagesError) {
+        console.error('Error fetching banner images:', imagesError);
+        // Fallback to content bannerImages
+        const content = contentResponse.ok ? contentResponse.data.data.content : {};
+        if (content.bannerImages && content.bannerImages.length > 0) {
+          const images = content.bannerImages
+            .filter(img => img && img.trim())
+            .map(img => getImageUrl(img));
+          setBannerImages(images);
+        } else {
+          setBannerImages([]);
         }
       }
     } catch (error) {
       console.error('Error fetching hero content:', error);
-      // Fallback to default content
       setHeroContent({
-        title: "Reducing Post-Harvest Losses with <span class=\"highlight-yellow\">Solar Innovation</span>",
-        tagline: "Empowering farmers with sustainable preservation technology to increase income and reduce waste",
-        primaryButton: { text: "View Products", link: "/products" },
-        secondaryButton: { text: "Learn More", link: "/how-it-works" },
-        stats: [
-          { number: "85%", label: "Loss Reduction" },
-          { number: "10,000+", label: "Farmers Helped" },
-          { number: "2.5x", label: "Income Growth" }
-        ]
+        title: "",
+        tagline: "",
+        primaryButton: { text: "", link: "" },
+        secondaryButton: { text: "", link: "" },
+        stats: []
       });
+      setBannerImages([]);
     }
   };
 
@@ -74,18 +95,20 @@ const Hero = () => {
   }
 
   return (
-    <section className="hero">
-      <div className="hero-slider">
-        {bannerImages.map((image, index) => (
-          <div
-            key={index}
-            className={`hero-slide ${index === currentSlide ? 'active' : ''}`}
-            style={{ backgroundImage: `url(${image})` }}
-          >
-            <div className="hero-slide-overlay"></div>
-          </div>
-        ))}
-      </div>
+    <section className="hero" style={bannerImages.length === 0 ? { background: 'linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%)' } : {}}>
+      {bannerImages.length > 0 && (
+        <div className="hero-slider">
+          {bannerImages.map((image, index) => (
+            <div
+              key={index}
+              className={`hero-slide ${index === currentSlide ? 'active' : ''}`}
+              style={{ backgroundImage: `url(${image})` }}
+            >
+              <div className="hero-slide-overlay"></div>
+            </div>
+          ))}
+        </div>
+      )}
       
       {bannerImages.length > 1 && (
         <>

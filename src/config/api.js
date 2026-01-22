@@ -1,20 +1,41 @@
 // API Configuration for Farmers Solutions Frontend
 
+// Production API URL - remote server
+const PRODUCTION_API_URL = 'https://api.farmsolutionss.com/api';
+// Development API URL - local server
+const DEVELOPMENT_API_URL = 'http://localhost:5000/api';
+
 // Determine API base URL based on environment
 const getApiBaseUrl = () => {
+  // Check if explicit API URL is set via environment variable
+  if (process.env.REACT_APP_API_URL) {
+    const explicitUrl = process.env.REACT_APP_API_URL;
+    // In production, ensure we never use localhost
+    if (process.env.NODE_ENV === 'production' && explicitUrl.includes('localhost')) {
+      console.warn('[API Config] WARNING: Localhost URL detected in production! Using production URL instead.');
+      return PRODUCTION_API_URL;
+    }
+    return explicitUrl;
+  }
+  
   // In development, use local backend
   if (process.env.NODE_ENV === 'development') {
-    return process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+    return DEVELOPMENT_API_URL;
   }
-  // In production, use the production API URL
-  return process.env.REACT_APP_API_URL || 'https://api.farmsolutionss.com/api';
+  
+  // In production, ALWAYS use the remote production API URL
+  // This ensures production builds never accidentally use localhost
+  return PRODUCTION_API_URL;
 };
 
 const API_BASE_URL = getApiBaseUrl();
 
-// Debug: Log API base URL on module load (only in development)
+// Debug: Log API base URL on module load
 if (process.env.NODE_ENV === 'development') {
-  console.log('[API Config] Base URL:', API_BASE_URL);
+  console.log('[API Config] Development mode - Base URL:', API_BASE_URL);
+} else {
+  // In production, log once (won't show in console unless enabled)
+  console.log('[API Config] Production mode - Base URL:', API_BASE_URL);
 }
 
 // API Endpoints

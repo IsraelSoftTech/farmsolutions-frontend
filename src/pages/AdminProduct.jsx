@@ -11,7 +11,6 @@ const AdminProduct = () => {
   const [activeSection, setActiveSection] = useState('hero');
   const [content, setContent] = useState({});
   const [originalContent, setOriginalContent] = useState({});
-  const [uploading, setUploading] = useState({});
   const [editingFields, setEditingFields] = useState({});
   const { notifications, showSuccess, showError, removeNotification } = useNotification();
 
@@ -160,35 +159,6 @@ const AdminProduct = () => {
     setEditingFields(prev => ({ ...prev, [fieldKey]: true }));
   };
 
-  const handleImageUpload = async (section, field, productIndex, file) => {
-    try {
-      setUploading({ ...uploading, [`${section}-${field}-${productIndex}`]: true });
-      
-      const formData = new FormData();
-      formData.append('image', file);
-      
-      const token = localStorage.getItem('authToken');
-      const response = await fetch(`${API_BASE_URL}/products-content/upload`, {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}` },
-        body: formData
-      });
-      
-      const result = await response.json();
-      
-      if (result.success) {
-        handleArrayItemChange(section, field, productIndex, 'image', result.data.filename);
-        showSuccess('Image uploaded successfully!');
-      } else {
-        showError('Failed to upload image: ' + (result.error || 'Unknown error'));
-      }
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      showError('Failed to upload image. Please try again.');
-    } finally {
-      setUploading({ ...uploading, [`${section}-${field}-${productIndex}`]: false });
-    }
-  };
 
   const saveField = async (section, field, index = null) => {
     const fieldKey = index !== null ? `${section}.${field}.${index}` : `${section}.${field}`;
@@ -492,25 +462,10 @@ const AdminProduct = () => {
                     </div>
                     
                     <div className="form-group">
-                      <label>Product Image</label>
-                      <div className="image-upload-item">
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={(e) => {
-                            if (e.target.files[0]) {
-                              handleImageUpload('solar_storage', 'products', index, e.target.files[0]);
-                            }
-                          }}
-                          disabled={uploading[`solar_storage-products-${index}`]}
-                        />
-                        {product.image && (
-                          <div className="image-preview">
-                            <img src={product.image.startsWith('http') ? product.image : `https://st69310.ispot.cc/farmsolutionss/uploads/${product.image}`} alt={product.name} />
-                            <span>{product.image}</span>
-                          </div>
-                        )}
-                      </div>
+                      <p className="form-help-text">
+                        <strong>Note:</strong> Product images are managed in the <strong>Images</strong> section. 
+                        Upload images with category "Product Images" there, and they will be matched by product name.
+                      </p>
                     </div>
                     
                     <div className="form-group">

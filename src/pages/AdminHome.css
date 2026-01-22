@@ -245,8 +245,26 @@
   background: #c82333;
 }
 
-.image-upload-item {
+.image-upload-item,
+.image-url-item {
   margin-bottom: 1rem;
+  padding: 1rem;
+  background: var(--bg-light);
+  border-radius: 6px;
+}
+
+.form-help-text {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  margin-bottom: 0.5rem;
+  font-style: italic;
+}
+
+.form-help-text strong {
+  color: var(--primary-green);
+}
+
+.image-url-item {
   padding: 1rem;
   background: var(--bg-light);
   border-radius: 6px;

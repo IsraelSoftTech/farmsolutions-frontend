@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getPartnerImage } from '../utils/partnerImages';
+import { getImageUrl } from '../utils/imageUtils';
 import api from '../config/api';
 import './PartnersSection.css';
 
@@ -12,38 +12,86 @@ const PartnersSection = () => {
 
   const fetchPartnersContent = async () => {
     try {
-      const response = await api.get('/home-content/partners');
-      if (response.ok && response.data.data) {
-        setPartnersContent(response.data.data.content);
+      // Fetch content
+      const contentResponse = await api.get(`/home-content/partners?t=${Date.now()}`);
+      let partnersData = {
+        title: "",
+        subtitle: "",
+        partners: []
+      };
+      
+      if (contentResponse.ok && contentResponse.data.data) {
+        partnersData = contentResponse.data.data.content;
+      }
+      
+      // Fetch partner images from images API
+      try {
+        const imagesResponse = await api.get(`/images?category=partner&t=${Date.now()}`);
+        if (imagesResponse.ok && imagesResponse.data.success) {
+          const partnerImages = imagesResponse.data.data;
+          
+          // Merge images with partners
+          const updatedPartners = partnersData.partners.map((partner, index) => {
+            // Try to find image by matching name in description/alt_text
+            let matchedImage = partnerImages.find(img => 
+              img.alt_text && partner.name && 
+              img.alt_text.toLowerCase().includes(partner.name.toLowerCase())
+            );
+            
+            // If no match, try by index
+            if (!matchedImage && partnerImages[index]) {
+              matchedImage = partnerImages[index];
+            }
+            
+            // If still no match but partner has logo URL, keep it
+            if (!matchedImage && partner.logo) {
+              return partner;
+            }
+            
+            // Use matched image or keep existing
+            return {
+              ...partner,
+              logo: matchedImage ? getImageUrl(matchedImage.url) : partner.logo
+            };
+          });
+          
+          // If we have more images than partners, add them
+          if (partnerImages.length > partnersData.partners.length) {
+            partnerImages.slice(partnersData.partners.length).forEach((img, idx) => {
+              updatedPartners.push({
+                id: Date.now() + idx,
+                name: img.alt_text || img.description || `Partner ${updatedPartners.length + 1}`,
+                website: '',
+                logo: getImageUrl(img.url)
+              });
+            });
+          }
+          
+          setPartnersContent({
+            ...partnersData,
+            partners: updatedPartners
+          });
+        } else {
+          setPartnersContent(partnersData);
+        }
+      } catch (imagesError) {
+        console.error('Error fetching partner images:', imagesError);
+        setPartnersContent(partnersData);
       }
     } catch (error) {
       console.error('Error fetching partners content:', error);
-      // Fallback to default content
       setPartnersContent({
-        title: "Our Partners",
-        subtitle: "We are proud to collaborate with leading organizations and institutions to bring innovative solutions to farmers across Africa.",
-        partners: [
-          { id: 1, name: 'PATNUC Cameroon', website: 'https://patnuc.cm', logo: 'patnuc.jpeg' },
-          { id: 2, name: 'World Bank', website: 'https://www.worldbank.org', logo: 'world bank.jpeg' },
-          { id: 3, name: 'MINPOSTE', website: 'https://www.minpostel.gov.cm', logo: 'minpostel.jpeg' },
-          { id: 4, name: 'MINADER', website: 'https://www.minader.cm', logo: 'minader.jpeg' },
-          { id: 5, name: 'MINEPIA', website: 'https://www.minepia.cm', logo: 'minepia.jpeg' },
-          { id: 6, name: 'MINMIDT', website: 'https://minmidt.com', logo: 'minmidt.jpeg' }
-        ]
+        title: "",
+        subtitle: "",
+        partners: []
       });
     }
   };
 
   const getImageSrc = (logo) => {
     if (!logo) return null;
-    if (logo.startsWith('http')) return logo;
-    // Check if it's a local asset first
-    try {
-      return getPartnerImage(logo);
-    } catch {
-      // If not found locally, try FTP
-      return `https://st69310.ispot.cc/farmsolutionss/uploads/${logo}`;
-    }
+    // Only use images from database/FTP - no local fallbacks
+    return getImageUrl(logo);
   };
 
   // Helper function to handle logo loading errors

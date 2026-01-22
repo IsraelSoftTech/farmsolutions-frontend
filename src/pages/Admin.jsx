@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { HiMenu, HiX } from 'react-icons/hi';
-import { FaEnvelope } from 'react-icons/fa';
-import logo from '../assets/logo.png';
+import { FaEnvelope, FaImage } from 'react-icons/fa';
+import { useLogo } from '../hooks/useLogo';
 import AdminHome from './AdminHome';
 import AdminAbout from './AdminAbout';
 import AdminMessages from './AdminMessages';
@@ -12,6 +12,7 @@ import AdminImpact from './AdminImpact';
 import AdminKnowledge from './AdminKnowledge';
 import AdminPricing from './AdminPricing';
 import AdminContact from './AdminContact';
+import AdminImages from './AdminImages';
 import api, { API_ENDPOINTS } from '../config/api';
 import './Admin.css';
 
@@ -20,6 +21,7 @@ const Admin = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [unreadCount, setUnreadCount] = useState(0);
   const navigate = useNavigate();
+  const { logoUrl } = useLogo();
 
   const menuItems = [
     { id: 'home', label: 'Home', path: '/' },
@@ -30,6 +32,7 @@ const Admin = () => {
     { id: 'knowledge', label: 'Knowledge', path: '/knowledge' },
     { id: 'pricing', label: 'Pricing', path: '/pricing' },
     { id: 'contact', label: 'Contact', path: '/contact' },
+    { id: 'images', label: 'Images', path: '/admin', icon: FaImage },
     { id: 'messages', label: 'Messages', path: '/admin', icon: FaEnvelope, badge: unreadCount }
   ];
 
@@ -68,7 +71,7 @@ const Admin = () => {
       <aside className={`admin-sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
           <div className="sidebar-logo">
-            <img src={logo} alt="Farmers Solutions Logo" className="sidebar-logo-img" />
+            {logoUrl && <img src={logoUrl} alt="Farmers Solutions Logo" className="sidebar-logo-img" />}
             <span className="sidebar-logo-text">Farmers Solutions</span>
           </div>
           <button 
@@ -138,6 +141,8 @@ const Admin = () => {
             <AdminPricing />
           ) : activeMenu === 'contact' ? (
             <AdminContact />
+          ) : activeMenu === 'images' ? (
+            <AdminImages />
           ) : activeMenu === 'messages' ? (
             <AdminMessages />
           ) : (

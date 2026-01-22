@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { HiMenu, HiX } from 'react-icons/hi';
-import logo from '../assets/logo.png';
+import { useLogo } from '../hooks/useLogo';
 import './Navigation.css';
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const { logoUrl } = useLogo();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -20,7 +21,7 @@ const Navigation = () => {
     <nav className="navbar">
       <div className="nav-container">
         <Link to="/" className="logo">
-          <img src={logo} alt="Farmers Solutions Logo" className="logo-img" />
+          {logoUrl && <img src={logoUrl} alt="Farmers Solutions Logo" className="logo-img" />}
           <span>Farmers Solutions</span>
         </Link>
         
