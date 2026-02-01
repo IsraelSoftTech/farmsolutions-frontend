@@ -67,7 +67,7 @@ const Admin = () => {
 
   return (
     <div className="admin-page">
-      {/* Sidebar */}
+      {/* Sidebar */}  
       <aside className={`admin-sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
           <div className="sidebar-logo">

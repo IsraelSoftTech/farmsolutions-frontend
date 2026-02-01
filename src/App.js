@@ -14,6 +14,8 @@ import PricingPage from './pages/PricingPage';
 import ContactPage from './pages/ContactPage';
 import AboutPage from './pages/AboutPage';
 import LoginPage from './pages/LoginPage';
+import SermonDetailPage from './pages/SermonDetailPage';
+import NotFoundPage from './pages/NotFoundPage';
 import Admin from './pages/Admin';
 import './App.css';
 
@@ -40,6 +42,9 @@ function App() {
                   <Route path="/about" element={<AboutPage />} />
                   <Route path="/contact" element={<ContactPage />} />
                   <Route path="/login" element={<LoginPage />} />
+                  <Route path="/sermon/:id" element={<SermonDetailPage />} />
+                  <Route path="/sermons/:id" element={<SermonDetailPage />} />
+                  <Route path="*" element={<NotFoundPage />} />
                 </Routes>
               </main>
               <Footer />
