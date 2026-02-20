@@ -1,9 +1,15 @@
+.hero-loading {
+  min-height: 600px;
+  width: 100%;
+}
+
 .hero {
   position: relative;
   color: white;
   padding: 7rem 0 5rem;
   text-align: center;
-  overflow: hidden;
+  overflow-x: hidden; /* Only clip horizontal - allow stats to show on mobile */
+  overflow-y: visible;
   font-family: 'Poppins', sans-serif;
   min-height: 600px;
   display: flex;
@@ -244,8 +250,11 @@
   }
 
   .hero-stats {
+    display: grid;
     grid-template-columns: 1fr;
     gap: 1rem;
+    margin-top: 2rem;
+    visibility: visible;
   }
 
   .hero-nav-button {
@@ -313,6 +322,8 @@
 
   .hero-stat {
     padding: 1.25rem 1rem;
+    display: block;
+    visibility: visible;
   }
 
   .hero-stat-number {

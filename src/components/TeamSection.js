@@ -103,7 +103,7 @@ const TeamSection = () => {
   };
 
   if (!teamContent) {
-    return <div className="team-loading">Loading...</div>;
+    return <div className="team-loading" aria-hidden="true"></div>;
   }
 
   return (

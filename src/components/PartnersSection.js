@@ -107,7 +107,7 @@ const PartnersSection = () => {
   };
 
   if (!partnersContent) {
-    return <div className="partners-loading">Loading...</div>;
+    return <div className="partners-loading" aria-hidden="true"></div>;
   }
 
   return (

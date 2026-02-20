@@ -3,6 +3,9 @@
   max-width: 1400px;
   margin: 0 auto;
   padding: 2rem;
+  padding-bottom: 3rem; /* Ensure stats/Add Stat visible when scrolled to bottom */
+  overflow-x: hidden; /* Prevent horizontal scroll on mobile */
+  box-sizing: border-box;
 }
 
 .admin-home-loading {
@@ -72,6 +75,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
   border-bottom: 2px solid var(--border-color);
@@ -117,6 +122,7 @@
 
 .editable-input {
   flex: 1;
+  min-width: 0; /* Prevents flex overflow on narrow screens */
   padding: 0.75rem;
   border: 2px solid var(--border-color);
   border-radius: 6px;
@@ -223,25 +229,101 @@
   margin-bottom: 0.75rem;
 }
 
-.array-item input {
-  padding: 0.5rem;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  font-size: 0.9rem;
+/* ===== Admin Home Stats - Unique classes (isolated from other styles) ===== */
+.admin-home-stats-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr auto;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 1rem;
+  background: var(--bg-light);
+  border-radius: 6px;
+  margin-bottom: 0.75rem;
 }
 
-.array-item button {
-  padding: 0.5rem 1rem;
+.admin-home-stats-row--four-cols {
+  grid-template-columns: 1fr 1fr 2fr auto;
+}
+
+.admin-home-stats-field {
+  min-width: 0;
+  flex: 1;
+}
+
+.admin-home-stats-field .editable-field-wrapper {
+  min-width: 0;
+  display: flex;
+}
+
+.admin-home-stats-field .editable-input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  background: #fff;
+}
+
+.admin-home-stats-group .admin-home-stats-remove-btn {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  min-height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+  transition: background 0.3s ease;
+}
+
+.admin-home-stats-group .admin-home-stats-remove-btn:hover {
+  background: #c82333;
+}
+
+/* Array item (other sections - keep for backward compat) */
+.array-item .editable-field-wrapper {
+  min-width: 0;
+}
+
+.array-item--four-cols {
+  grid-template-columns: 1fr 1fr 2fr auto;
+}
+
+.array-item input,
+.array-item .editable-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  background: #fff;
+}
+
+.array-item .remove-item-btn {
+  padding: 0.5rem;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: #dc3545;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 0.85rem;
+  font-size: 1rem;
+  flex-shrink: 0;
   transition: background 0.3s ease;
 }
 
-.array-item button:hover {
+.array-item .remove-item-btn:hover {
   background: #c82333;
 }
 
@@ -403,6 +485,7 @@
   background: var(--primary-green);
   color: white;
   padding: 0.75rem 1.5rem;
+  min-height: 44px; /* Touch-friendly target for mobile */
   border: none;
   border-radius: 6px;
   font-size: 0.9rem;
@@ -443,38 +526,97 @@
 @media (max-width: 968px) {
   .admin-home {
     padding: 1rem;
+    padding-bottom: 2.5rem;
   }
 
   .section-tabs {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.25rem;
   }
 
   .section-tab {
     white-space: nowrap;
     padding: 0.625rem 1.25rem;
     font-size: 0.85rem;
+    min-height: 44px; /* Touch-friendly */
   }
 
   .admin-home-content {
     padding: 1.5rem;
   }
 
+  .section-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .save-section-btn {
+    width: 100%;
+  }
+
   .form-row {
     grid-template-columns: 1fr;
   }
 
-  .array-item {
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
+  /* Stats rows - fields stack in col 1, compact X button in col 2 */
+  .admin-home-stats-row,
+  .admin-home-stats-row--four-cols {
+    grid-template-columns: 1fr auto;
+    gap: 0.5rem 0.75rem;
   }
 
-  .array-item button {
+  .admin-home-stats-field {
+    grid-column: 1;
+    min-width: 0;
+  }
+
+  .admin-home-stats-remove-btn {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    align-self: center;
+  }
+
+  .admin-home-stats-field .editable-input {
+    font-size: 16px;
+  }
+
+  .array-item,
+  .array-item--four-cols {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    padding: 1rem;
+    visibility: visible;
+  }
+
+  .array-item .editable-field-wrapper {
+    width: 100%;
+    min-width: 0;
+    display: flex;
+  }
+
+  .array-item .editable-input {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .array-item .remove-item-btn {
+    width: 100%;
+  }
+
+  /* Add Stat button full width on mobile */
+  .admin-home-stats-group > button,
+  .form-group > button {
     width: 100%;
   }
 }
 
 @media (max-width: 480px) {
+  .admin-home {
+    padding: 0.75rem;
+  }
+
   .admin-home-header h2 {
     font-size: 1.5rem;
   }
@@ -487,9 +629,35 @@
     padding: 1rem;
   }
 
+  .array-item {
+    padding: 0.875rem;
+    gap: 0.625rem;
+  }
+
+  .array-item input,
+  .array-item .editable-input {
+    font-size: 16px; /* Prevents zoom on focus in iOS */
+  }
+
   .solution-card-edit,
   .team-member-edit,
   .partner-edit {
     padding: 1rem;
+  }
+}
+
+/* Very narrow screens (e.g. 320px) */
+@media (max-width: 360px) {
+  .admin-home {
+    padding: 0.5rem;
+  }
+
+  .admin-home-content {
+    padding: 0.75rem;
+  }
+
+  .section-tab {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
   }
 }

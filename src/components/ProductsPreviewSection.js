@@ -128,7 +128,7 @@ const ProductsPreviewSection = () => {
   };
 
   if (loading || !previewContent) {
-    return <div className="products-preview-loading">Loading...</div>;
+    return <div className="products-preview-loading" aria-hidden="true"></div>;
   }
 
   if (featuredProducts.length === 0) {

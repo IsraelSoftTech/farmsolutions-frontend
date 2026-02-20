@@ -91,7 +91,7 @@ const Hero = () => {
   };
 
   if (!heroContent) {
-    return <div className="hero-loading">Loading...</div>;
+    return <div className="hero-loading" aria-hidden="true"></div>;
   }
 
   return (

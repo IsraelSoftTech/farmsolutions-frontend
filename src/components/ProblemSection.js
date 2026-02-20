@@ -42,7 +42,7 @@ const ProblemSection = () => {
   };
 
   if (!problemContent) {
-    return <div className="problem-loading">Loading...</div>;
+    return <div className="problem-loading" aria-hidden="true"></div>;
   }
 
   return (

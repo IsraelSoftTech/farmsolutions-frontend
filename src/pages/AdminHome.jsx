@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaSave, FaEdit } from 'react-icons/fa';
+import { FaSave, FaTimes } from 'react-icons/fa';
 import api, { API_BASE_URL } from '../config/api';
 import useNotification from '../hooks/useNotification';
 import NotificationContainer from '../components/NotificationContainer';
@@ -357,29 +357,35 @@ const AdminHome = () => {
                 Upload images with category "Banner Images" there, and they will appear here automatically.
               </p>
             </div>
-            <div className="form-group">
+            <div className="form-group admin-home-stats-group">
               <label>Stats</label>
               {(content.hero?.stats || []).map((stat, index) => (
-                <div key={index} className="array-item">
-                  <EditableField
-                    section="hero"
-                    field="stats"
-                    value={stat.number}
-                    onChange={(val) => handleArrayItemChange('hero', 'stats', index, 'number', val)}
-                    placeholder="Number"
-                    index={index}
-                    subField="number"
-                  />
-                  <EditableField
-                    section="hero"
-                    field="stats"
-                    value={stat.label}
-                    onChange={(val) => handleArrayItemChange('hero', 'stats', index, 'label', val)}
-                    placeholder="Label"
-                    index={index}
-                    subField="label"
-                  />
-                  <button onClick={() => removeArrayItem('hero', 'stats', index)}>Remove</button>
+                <div key={index} className="admin-home-stats-row">
+                  <div className="admin-home-stats-field">
+                    <EditableField
+                      section="hero"
+                      field="stats"
+                      value={stat.number}
+                      onChange={(val) => handleArrayItemChange('hero', 'stats', index, 'number', val)}
+                      placeholder="Number"
+                      index={index}
+                      subField="number"
+                    />
+                  </div>
+                  <div className="admin-home-stats-field">
+                    <EditableField
+                      section="hero"
+                      field="stats"
+                      value={stat.label}
+                      onChange={(val) => handleArrayItemChange('hero', 'stats', index, 'label', val)}
+                      placeholder="Label"
+                      index={index}
+                      subField="label"
+                    />
+                  </div>
+                  <button type="button" className="admin-home-stats-remove-btn" onClick={() => removeArrayItem('hero', 'stats', index)} aria-label="Remove stat">
+                    <FaTimes />
+                  </button>
                 </div>
               ))}
               <button onClick={() => addArrayItem('hero', 'stats', { number: '', label: '' })}>Add Stat</button>
@@ -416,35 +422,43 @@ const AdminHome = () => {
                 rows={3}
               />
             </div>
-            <div className="form-group">
+            <div className="form-group admin-home-stats-group">
               <label>Stats</label>
               {(content.problem?.stats || []).map((stat, index) => (
-                <div key={index} className="array-item">
-                  <EditableField
-                    section="problem"
-                    field="stats"
-                    value={stat.number}
-                    onChange={(val) => handleArrayItemChange('problem', 'stats', index, 'number', val)}
-                    placeholder="Number"
-                    index={index}
-                  />
-                  <EditableField
-                    section="problem"
-                    field="stats"
-                    value={stat.label}
-                    onChange={(val) => handleArrayItemChange('problem', 'stats', index, 'label', val)}
-                    placeholder="Label"
-                    index={index}
-                  />
-                  <EditableField
-                    section="problem"
-                    field="stats"
-                    value={stat.icon}
-                    onChange={(val) => handleArrayItemChange('problem', 'stats', index, 'icon', val)}
-                    placeholder="Icon"
-                    index={index}
-                  />
-                  <button onClick={() => removeArrayItem('problem', 'stats', index)}>Remove</button>
+                <div key={index} className="admin-home-stats-row admin-home-stats-row--four-cols">
+                  <div className="admin-home-stats-field">
+                    <EditableField
+                      section="problem"
+                      field="stats"
+                      value={stat.number}
+                      onChange={(val) => handleArrayItemChange('problem', 'stats', index, 'number', val)}
+                      placeholder="Number"
+                      index={index}
+                    />
+                  </div>
+                  <div className="admin-home-stats-field">
+                    <EditableField
+                      section="problem"
+                      field="stats"
+                      value={stat.label}
+                      onChange={(val) => handleArrayItemChange('problem', 'stats', index, 'label', val)}
+                      placeholder="Label"
+                      index={index}
+                    />
+                  </div>
+                  <div className="admin-home-stats-field">
+                    <EditableField
+                      section="problem"
+                      field="stats"
+                      value={stat.icon}
+                      onChange={(val) => handleArrayItemChange('problem', 'stats', index, 'icon', val)}
+                      placeholder="Icon"
+                      index={index}
+                    />
+                  </div>
+                  <button type="button" className="admin-home-stats-remove-btn" onClick={() => removeArrayItem('problem', 'stats', index)} aria-label="Remove stat">
+                    <FaTimes />
+                  </button>
                 </div>
               ))}
               <button onClick={() => addArrayItem('problem', 'stats', { number: '', label: '', icon: '' })}>Add Stat</button>
@@ -574,35 +588,43 @@ const AdminHome = () => {
                 rows={3}
               />
             </div>
-            <div className="form-group">
+            <div className="form-group admin-home-stats-group">
               <label>Impacts</label>
               {(content.impact?.impacts || []).map((impact, index) => (
-                <div key={index} className="array-item">
-                  <EditableField
-                    section="impact"
-                    field="impacts"
-                    value={impact.number}
-                    onChange={(val) => handleArrayItemChange('impact', 'impacts', index, 'number', val)}
-                    placeholder="Number"
-                    index={index}
-                  />
-                  <EditableField
-                    section="impact"
-                    field="impacts"
-                    value={impact.label}
-                    onChange={(val) => handleArrayItemChange('impact', 'impacts', index, 'label', val)}
-                    placeholder="Label"
-                    index={index}
-                  />
-                  <EditableField
-                    section="impact"
-                    field="impacts"
-                    value={impact.description}
-                    onChange={(val) => handleArrayItemChange('impact', 'impacts', index, 'description', val)}
-                    placeholder="Description"
-                    index={index}
-                  />
-                  <button onClick={() => removeArrayItem('impact', 'impacts', index)}>Remove</button>
+                <div key={index} className="admin-home-stats-row admin-home-stats-row--four-cols">
+                  <div className="admin-home-stats-field">
+                    <EditableField
+                      section="impact"
+                      field="impacts"
+                      value={impact.number}
+                      onChange={(val) => handleArrayItemChange('impact', 'impacts', index, 'number', val)}
+                      placeholder="Number"
+                      index={index}
+                    />
+                  </div>
+                  <div className="admin-home-stats-field">
+                    <EditableField
+                      section="impact"
+                      field="impacts"
+                      value={impact.label}
+                      onChange={(val) => handleArrayItemChange('impact', 'impacts', index, 'label', val)}
+                      placeholder="Label"
+                      index={index}
+                    />
+                  </div>
+                  <div className="admin-home-stats-field">
+                    <EditableField
+                      section="impact"
+                      field="impacts"
+                      value={impact.description}
+                      onChange={(val) => handleArrayItemChange('impact', 'impacts', index, 'description', val)}
+                      placeholder="Description"
+                      index={index}
+                    />
+                  </div>
+                  <button type="button" className="admin-home-stats-remove-btn" onClick={() => removeArrayItem('impact', 'impacts', index)} aria-label="Remove impact">
+                    <FaTimes />
+                  </button>
                 </div>
               ))}
               <button onClick={() => addArrayItem('impact', 'impacts', { number: '', label: '', description: '' })}>Add Impact</button>

@@ -54,7 +54,7 @@ const SolutionSection = () => {
   };
 
   if (!solutionContent) {
-    return <div className="solution-loading">Loading...</div>;
+    return <div className="solution-loading" aria-hidden="true"></div>;
   }
 
   return (

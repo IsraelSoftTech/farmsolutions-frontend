@@ -33,7 +33,7 @@ const ImpactSection = () => {
   };
 
   if (!impactContent) {
-    return <div className="impact-loading">Loading...</div>;
+    return <div className="impact-loading" aria-hidden="true"></div>;
   }
 
   return (
