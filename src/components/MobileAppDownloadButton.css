@@ -1,0 +1,50 @@
+.mobile-app-download-fab {
+  position: fixed;
+  z-index: 1001;
+  right: 1rem;
+  top: 5.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 50%;
+  color: #fff;
+  text-decoration: none;
+  background: linear-gradient(145deg, #00a859 0%, #00c96d 45%, #00e67a 100%);
+  box-shadow: 0 3px 14px rgba(0, 90, 45, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.15) inset;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease, filter 0.2s ease;
+}
+
+.mobile-app-download-fab:hover {
+  color: #ffeb3b;
+  filter: brightness(1.05);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(0, 120, 60, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+}
+
+.mobile-app-download-fab:hover .mobile-app-download-fab__icon {
+  filter: drop-shadow(0 0 6px rgba(255, 235, 59, 0.5));
+}
+
+.mobile-app-download-fab:active {
+  transform: translateY(0);
+}
+
+.mobile-app-download-fab__icon {
+  display: block;
+  flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .mobile-app-download-fab {
+    right: 0.75rem;
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .mobile-app-download-fab .mobile-app-download-fab__icon {
+    width: 22px;
+    height: 22px;
+  }
+}
