@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navigation from './components/Navigation';
-import MobileAppDownloadButton from './components/MobileAppDownloadButton';
 import Footer from './components/Footer';
 import Favicon from './components/Favicon';
 import AnimatedLogo from './components/AnimatedLogo';
@@ -30,7 +29,6 @@ function App() {
           <Route path="/*" element={
             <>
               <Navigation />
-              <MobileAppDownloadButton />
               <main className="main-content">
                 <Routes>
                   <Route path="/" element={<HomePage />} />
